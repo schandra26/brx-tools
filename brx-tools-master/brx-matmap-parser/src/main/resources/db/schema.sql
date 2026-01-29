@@ -26,11 +26,21 @@ CREATE TABLE IF NOT EXISTS openapi_mappings (
 -- Repository sources (source code repositories containing matmap files)
 CREATE TABLE IF NOT EXISTS repository_sources (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL UNIQUE,
   url TEXT,
-  type VARCHAR(100),
+  type VARCHAR(100) NOT NULL,
   enabled BOOLEAN DEFAULT TRUE,
-  last_scanned_at TIMESTAMP
+  last_scanned_at TIMESTAMP,
+  created_at TIMESTAMP NOT NULL
 );
 
--- Additional tables (scans, logical model versions, etc.) would follow similar structure.
+-- Scan jobs track execution of repository scans
+CREATE TABLE IF NOT EXISTS scan_jobs (
+  id SERIAL PRIMARY KEY,
+  repository_id BIGINT NOT NULL,
+  status VARCHAR(100) NOT NULL,
+  error_message TEXT,
+  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP
+);
+
