@@ -50,7 +50,9 @@ jobs:
 
       - name: Install frontend dependencies
         working-directory: frontend
-        run: npm install
+        run: |
+          # Use legacy-peer-deps to avoid CI failing due to strict peer dependency resolvers
+          npm install --legacy-peer-deps
 
       - name: Build frontend
         working-directory: frontend
