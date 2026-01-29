@@ -43,49 +43,40 @@ class QueryAPITest {
     }
 
     @Test
-    void getMappings_withNoFilters() throws Exception {
+    void getMappingsJson_withNoFilters() throws Exception {
         when(queryService.getFilteredMappings(null, null, null)).thenReturn(mockMappings);
 
-        mockMvc.perform(get("/mappings"))
+        mockMvc.perform(get("/api/mappings"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("mappings"))
-                .andExpect(model().attributeExists("mappings"))
-                .andExpect(model().attribute("mappings", mockMappings))
-                .andExpect(model().attributeDoesNotExist("sourceFilter"))
-                .andExpect(model().attributeDoesNotExist("targetFilter"));
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(2));
     }
 
     @Test
-    void getMappings_withSourceFilter() throws Exception {
+    void getMappingsJson_withSourceFilter() throws Exception {
         String sourceFilter = "source1";
         List<Mapping> filteredMappings = List.of(mockMappings.getFirst());
         when(queryService.getFilteredMappings(null, sourceFilter, null)).thenReturn(filteredMappings);
 
-        mockMvc.perform(get("/mappings")
+        mockMvc.perform(get("/api/mappings")
                         .param("source", sourceFilter))
                 .andExpect(status().isOk())
-                .andExpect(view().name("mappings"))
-                .andExpect(model().attributeExists("mappings"))
-                .andExpect(model().attribute("mappings", filteredMappings))
-                .andExpect(model().attribute("sourceFilter", sourceFilter))
-                .andExpect(model().attributeDoesNotExist("targetFilter"));
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(1));
     }
 
     @Test
-    void getMappings_withBothFilters() throws Exception {
+    void getMappingsJson_withBothFilters() throws Exception {
         String sourceFilter = "source2";
         String targetFilter = "target2";
         List<Mapping> filteredMappings = List.of(mockMappings.get(1));
         when(queryService.getFilteredMappings(null, sourceFilter, targetFilter)).thenReturn(filteredMappings);
 
-        // Act & Assert
-        mockMvc.perform(get("/mappings")
+        mockMvc.perform(get("/api/mappings")
                         .param("source", sourceFilter)
                         .param("target", targetFilter))
                 .andExpect(status().isOk())
-                .andExpect(view().name("mappings"))
-                .andExpect(model().attribute("mappings", filteredMappings))
-                .andExpect(model().attribute("sourceFilter", sourceFilter))
-                .andExpect(model().attribute("targetFilter", targetFilter));
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(1));
     }
 }
