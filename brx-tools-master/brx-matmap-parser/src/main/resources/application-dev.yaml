@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    driverClassName: com.amazonaws.secretsmanager.sql.AWSSecretsManagerPostgreSQLDriver
+    username: /ftbrds01/dev/database/brx-tools-user/app/credentials
+    url: jdbc-secretsmanager:postgresql://db.us-east-1.epm.rds01.ftb.dev.npd.bfsaws.net:5432/brx-tools

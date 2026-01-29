@@ -1,0 +1,89 @@
+servicename: brx-matmap-parser
+replicaCount: 1
+environment: dev
+application: brx
+
+image:
+  ecrImage:
+  pullPolicy: Always
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+env:
+  SPRING_PROFILES_ACTIVE: dev
+  DD_TRACE_OTEL_ENABLED: "true"
+  DD_TAGS: "team:epm-brx"
+
+  SERVER_PORT: 443
+  SERVER_SSL_ENABLED: true
+  SERVER_SSL_KEY_STORE: /brx/keystore.p12
+  SERVER_SSL_KEY_STORE_PASSWORD: changeit
+  SERVER_SSL_KEY_STORE_TYPE: PKCS12
+  SERVER_SSL_KEY_ALIAS: brx-ssl
+  SERVER_SSL_CLIENT_AUTH: none
+
+serviceAccount:
+  #  Optional. The service account to use in deployment. if created is true and name is not defined, the name will be eisl-${servicename}
+  #  name:
+  create: true
+  automount: true
+
+service:
+  type: ClusterIP
+  port: 443
+  targetPort: 443
+  protocol: TCP
+  name: https
+  annotations:
+    alb.ingress.kubernetes.io/backend-protocol: HTTPS
+
+ingress:
+  enabled: true
+  className: "alb"
+  annotations:
+  hosts:
+    - host: brx-matmap-parser.ftb.dev.npd.bfsaws.net
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# Optional overrides for target health check (ALB target group, pod liveness and readiness)
+healthcheck:
+  path: /actuator/health
+  protocol: HTTPS
+  port: 443
+  intervalSeconds: 15
+  timeoutSeconds: 5
+  initialDelaySeconds: 30
+  threshHoldCount: 2
+  httpHeaders: []
+
+resources:
+  limits:
+    cpu: "1"
+    memory: "4Gi"
+  requests:
+    cpu: "1"
+    memory: "4Gi"
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  #  targetCPUUtilizationPercentage: 70
+  #  targetMemoryUtilizationPercentage: 80
+  customMetricName: http.server.requests.count
+  customMetricAverageValue: 5
+
+secretStore:
+  create: false
+
+podSecurityContext:
+  runAsUser: 0
+  runAsGroup: 0
+  fsGroup: 0
+
+securityContext: {}

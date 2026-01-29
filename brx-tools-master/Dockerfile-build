@@ -1,0 +1,51 @@
+ARG ARTIFACTORY_URL=artifacts.devops.bfsaws.net
+FROM ${ARTIFACTORY_URL}/docker-proxy/maven:3-eclipse-temurin-21 AS dependencies
+
+RUN ls -lrt
+WORKDIR /build
+
+COPY . .
+COPY maven_settings.xml ./settings.xml
+RUN pwd
+RUN ls -lrt
+
+RUN mvn clean package -Dmaven.test.skip=true --settings settings.xml
+
+FROM dependencies AS build
+
+ARG BRANCH_NAME
+ARG SONAR_TOKEN
+
+ENV BRANCH_NAME=$BRANCH_NAME
+ENV SONAR_TOKEN=$SONAR_TOKEN
+ENV SONAR_PROJECT_KEY=GTO_Platform-Engineering-Brx-Tools_3457
+ENV SONAR_HOST=https://devops.sonarq.prd.prd.bfsaws.net
+
+RUN pwd
+RUN ls -lrt
+
+# Copy the dependencies from the previous stage
+COPY --from=dependencies /root/.m2 /root/.m2
+COPY --from=dependencies /build/settings.xml /app/settings.xml
+
+# Copy parent pom.xml
+COPY ./pom.xml /app/pom.xml
+# Copy the project files into the Docker image
+COPY ./ /app/project
+
+# Set the working directory
+WORKDIR /app/project
+RUN ls -lrt
+
+ENTRYPOINT mvn verify \
+                       sonar:sonar \
+                       -Dsonar.projectKey=$SONAR_PROJECT_KEY \
+                       -Dsonar.projectName=$SONAR_PROJECT_KEY \
+                       -Dsonar.host.url=$SONAR_HOST/ \
+                       -Dsonar.token=$SONAR_TOKEN \
+                       -Dsonar.branch.name=$BRANCH_NAME \
+                       -Dsonar.qualitygate.wait=true \
+                       -Dsonar.qualitygate.timeout=300 \
+                       -Dsonar.coverage.jacoco.xmlReportPaths=./target/site/jacoco/jacoco.xml \
+                       --settings /app/settings.xml
+

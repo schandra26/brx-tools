@@ -1,0 +1,780 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Translator xmlns="http://messageautomation.com/translator/v1/XMLSchema.xsd">
+    <Messages>
+        <message>
+            <messageDefinition>
+                <messageCategory>
+                    <name>Payment</name>
+                </messageCategory>
+                <messageDetail>
+                    <name>Astrid Trades</name>
+                    <type>SQL</type>
+                    <allowBlanks>false</allowBlanks>
+                </messageDetail>
+                <messageElement>
+                    <name>root</name>
+                    <value/>
+                    <messageElement>
+                        <name>repeating_fields</name>
+                        <value/>
+                        <messageElement>
+                            <name>amount</name>
+                            <repeats>true</repeats>
+                            <repeatsMax>$"BRx_TransactionAmountDeconstruct_Count"</repeatsMax>
+                            <value>$?($"BRx_TransactionAmountType_$s"{Valid:&lt;amount_type&gt;} != "",
+	$V(TransactionAmountType_concat,$[$"TransactionAmountType_concat"|]$"BRx_TransactionAmountType_$s"&lt;amount_type&gt;)
+		$?($"BRx_TransactionAmountValue_$s"{::1} == "-",
+			$V(amountSign,-),
+			$V(amountSign,+)
+		)
+	$V(TransactionAmountSignValue_concat,$[$"TransactionAmountSignValue_concat"|]$"amountSign")
+	$V(TransactionAmountValue_concat,$[$"TransactionAmountValue_concat"|]$"BRx_TransactionAmountValue_$s"{Remove:-,+})
+	$V(TransactionCurrencyValue_concat,$[$"TransactionCurrencyValue_concat"|]$"BRx_TransactionAmountCurrency_$s")
+,)
+
+</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>fees</name>
+                            <repeats>true</repeats>
+                            <repeatsMax>$"BRx_TransactionFeeDeconstruct_Count"</repeatsMax>
+                            <value>$?($"BRx_TransactionFeeType_$s" == "WithholdingTax" || $"BRx_TransactionFeeType_$s" == "AdditionalWithholdingTax",
+	$?($"BRx_TransactionNarrativeValue_TaxPoolCode" != "",
+		$V(TransactionFeeTypeTaxPoolCode,$[$"BRx_TransactionFeeType_$s"$"BRx_TransactionNarrativeValue_TaxPoolCode"]),
+		$V(TransactionFeeTypeTaxPoolCode,$"BRx_TransactionFeeType_$s")
+	)
+	
+	$V(TransactionAmountType_concat,$[$"TransactionAmountType_concat"|]$"TransactionFeeTypeTaxPoolCode"&lt;tax_type&gt;)
+		$?($"BRx_TransactionFeeValue_$s"{::1} == "-",
+			$V(amountSign,-),
+			$V(amountSign,+)
+		)
+$V(TransactionAmountSignValue_concat,$[$"TransactionAmountSignValue_concat"|]$"amountSign")
+$V(TransactionAmountValue_concat,$[$"TransactionAmountValue_concat"|]$"BRx_TransactionFeeValue_$s"{Remove:-,+})
+,)
+
+$?($"BRx_TransactionFeeType_$s"{Valid:&lt;fee_type&gt;} != "",
+	$V(TransactionAmountType_concat,$[$"TransactionAmountType_concat"|]$"BRx_TransactionFeeType_$s"&lt;fee_type&gt;)
+		$?($"BRx_TransactionFeeValue_$s"{::1} == "-",
+			$V(amountSign,-),
+			$V(amountSign,+)
+		)
+$V(TransactionAmountSignValue_concat,$[$"TransactionAmountSignValue_concat"|]$"amountSign")
+$V(TransactionAmountValue_concat,$[$"TransactionAmountValue_concat"|]$"BRx_TransactionFeeValue_$s"{Remove:-,+})
+,)
+</value>
+                        </messageElement>
+                    </messageElement>
+                    <messageElement>
+                        <name>astrid_payment_projections</name>
+                        <instruction>sqlInsert</instruction>
+                        <value/>
+                        <messageElement>
+                            <name>bkr_no</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionClientIdentifier"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>payment_type</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionType"&lt;payment_type&gt;</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>record_type</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$?($"BRx_TransactionQuantityValue_TransactionQuantity" != "",
+01,
+	$?($"BRx_TransactionAmountDeconstruct_Count" != "",
+	02,
+	)
+)	</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>sec_no</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionInstrumentIdentifierValue_UniqueReference"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>value_date</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionDateValue_ValueDate"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>entitle_type</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionNarrativeValue_CorporateActionEventType"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>acct_number</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionPartyIdentifierValue__AccountNumber"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>simbase_appl_code</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionNarrativeValue_CorporateActionClaimReason"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>sending_appl_id</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionIdentifierValue_CorporateActionInternalEventID"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>folder_number</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionIdentifierValue_CorporateActionCommonReference"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>payment_simulation</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionCategory"&lt;category&gt;
+</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>income_type</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionIdentifierValue_IncomeTypecode"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>other_income_type</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionIdentifierValue_OtherIncomeTypeCode"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>record_date</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionDateValue_RecordDate"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>payable_date</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionDateValue_SettlementDate"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>event_rate</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionRateValue_CAEntitlementRate"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>event_description</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionNarrativeValue_CAEventDescription"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>quantity</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionQuantityValue_TransactionQuantity"{Remove:-,+}</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>qty_sign</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$?($"BRx_TransactionQuantityValue_TransactionQuantity" != "",
+	$?($"BRx_TransactionQuantityValue_TransactionQuantity"{:1:1} == "-",
+	-,
+	+)
+,)</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>elquan</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionQuantityValue_EligibleQuantity"{Remove:-,+}</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>elquan_sign</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$?($"BRx_TransactionQuantityValue_EligibleQuantity" != "",
+	$?($"BRx_TransactionQuantityValue_EligibleQuantity"{:1:1} == "-",
+	-,
+	+)
+,)</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>bal_status</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionPartyIdentifierValue__CorporateActionAccountCode"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>book_value</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionAmountValue_BookValue"{Remove:-,+}</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>bv_sign</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$?($"BRx_TransactionAmountValue_BookValue" != "",
+	$?($"BRx_TransactionAmountValue_BookValue"{:1:1} == "-",
+	-,
+	+)
+,)</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>amt_type</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"TransactionAmountType_concat"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>amount</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"TransactionAmountValue_concat"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>amount_sign</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"TransactionAmountSignValue_concat"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>event_currency</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionAmountCurrency_Gross"
+</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>conv_amount</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionAmountValue_TransactionAmount"{Remove:-,+}
+</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>conv_amount_sign</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$?($"BRx_TransactionAmountValue_TransactionAmount" != "",
+	$?($"BRx_TransactionAmountValue_TransactionAmount"{:1:1} == "-",
+	-,
+	+)
+,)</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>account_currency</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionAmountCurrency_TransactionAmount"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>exchange_rate</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionRateValue_ForexRate"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>entry_override</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionClassificationValue_CAEntryTypeOverride"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>tax_category</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionNarrativeValue_TaxCategoryCode"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>event_owner</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionPartyIdentifierValue_Organization_Internal"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>country_income_source</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionCountry"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>transaction_status</name>
+                            <instruction>sqlInsertColumn</instruction>
+                            <javaObjectType>VARCHAR</javaObjectType>
+                            <value>$"BRx_TransactionStatus"&lt;transaction_status&gt;</value>
+                        </messageElement>
+                    </messageElement>
+                </messageElement>
+            </messageDefinition>
+        </message>
+        <message>
+            <messageDefinition>
+                <messageCategory>
+                    <name>xml</name>
+                </messageCategory>
+                <messageDetail>
+                    <name>Test Astrid Trades</name>
+                    <type>XML</type>
+                    <allowBlanks>false</allowBlanks>
+                </messageDetail>
+                <messageElement>
+                    <name>root</name>
+                    <value/>
+                    <messageElement>
+                        <name>repeating_fields</name>
+                        <value/>
+                        <messageElement>
+                            <name>amount</name>
+                            <repeats>true</repeats>
+                            <repeatsMax>$"BRx_TransactionAmountDeconstruct_Count"</repeatsMax>
+                            <value>$?($"BRx_TransactionAmountType_$s"{Valid:&lt;amount_type&gt;} != "",
+	$V(TransactionAmountType_concat,$[$"TransactionAmountType_concat"|]$"BRx_TransactionAmountType_$s"&lt;amount_type&gt;)
+		$?($"BRx_TransactionAmountValue_$s"{::1} == "-",
+			$V(amountSign,-),
+			$V(amountSign,+)
+		)
+	$V(TransactionAmountSignValue_concat,$[$"TransactionAmountSignValue_concat"|]$"amountSign")
+	$V(TransactionAmountValue_concat,$[$"TransactionAmountValue_concat"|]$"BRx_TransactionAmountValue_$s"{Remove:-,+})
+	$V(TransactionCurrencyValue_concat,$[$"TransactionCurrencyValue_concat"|]$"BRx_TransactionAmountCurrency_$s")
+,)
+
+</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>fees</name>
+                            <repeats>true</repeats>
+                            <repeatsMax>$"BRx_TransactionFeeDeconstruct_Count"</repeatsMax>
+                            <value>$?($"BRx_TransactionFeeType_$s" == "WithholdingTax" || $"BRx_TransactionFeeType_$s" == "AdditionalWithholdingTax",
+	$?($"BRx_TransactionNarrativeValue_TaxPoolCode" != "",
+		$V(TransactionFeeTypeTaxPoolCode,$[$"BRx_TransactionFeeType_$s"$"BRx_TransactionNarrativeValue_TaxPoolCode"]),
+		$V(TransactionFeeTypeTaxPoolCode,$"BRx_TransactionFeeType_$s")
+	)
+	
+	$V(TransactionAmountType_concat,$[$"TransactionAmountType_concat"|]$"TransactionFeeTypeTaxPoolCode"&lt;tax_type&gt;)
+		$?($"BRx_TransactionFeeValue_$s"{::1} == "-",
+			$V(amountSign,-),
+			$V(amountSign,+)
+		)
+$V(TransactionAmountSignValue_concat,$[$"TransactionAmountSignValue_concat"|]$"amountSign")
+$V(TransactionAmountValue_concat,$[$"TransactionAmountValue_concat"|]$"BRx_TransactionFeeValue_$s"{Remove:-,+})
+,)
+
+$?($"BRx_TransactionFeeType_$s"{Valid:&lt;fee_type&gt;} != "",
+	$V(TransactionAmountType_concat,$[$"TransactionAmountType_concat"|]$"BRx_TransactionFeeType_$s"&lt;fee_type&gt;)
+		$?($"BRx_TransactionFeeValue_$s"{::1} == "-",
+			$V(amountSign,-),
+			$V(amountSign,+)
+		)
+$V(TransactionAmountSignValue_concat,$[$"TransactionAmountSignValue_concat"|]$"amountSign")
+$V(TransactionAmountValue_concat,$[$"TransactionAmountValue_concat"|]$"BRx_TransactionFeeValue_$s"{Remove:-,+})
+,)
+</value>
+                        </messageElement>
+                    </messageElement>
+                    <messageElement>
+                        <name>astrid_payment_projections</name>
+                        <value/>
+                        <messageElement>
+                            <name>bkr_no</name>
+                            <value>$"BRx_TransactionClientIdentifier"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>payment_type</name>
+                            <value>$"BRx_TransactionType"&lt;payment_type&gt;</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>record_type</name>
+                            <value>$?($"BRx_TransactionQuantityValue_TransactionQuantity" != "",
+01,
+	$?($"BRx_TransactionAmountDeconstruct_Count" != "",
+	02,
+	)
+)	</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>sec_no</name>
+                            <value>$"BRx_TransactionInstrumentIdentifierValue_UniqueReference"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>value_date</name>
+                            <value>$"BRx_TransactionDateValue_ValueDate"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>entitle_type</name>
+                            <value>$"BRx_TransactionNarrativeValue_CorporateActionEventType"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>acct_number</name>
+                            <value>$"BRx_TransactionPartyIdentifierValue__AccountNumber"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>simbase_appl_code</name>
+                            <value>$"BRx_TransactionNarrativeValue_CorporateActionClaimReason"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>sending_appl_id</name>
+                            <value>$"BRx_TransactionIdentifierValue_CorporateActionInternalEventID"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>folder_number</name>
+                            <value>$"BRx_TransactionIdentifierValue_CorporateActionCommonReference"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>payment_simulation</name>
+                            <value>$"BRx_TransactionCategory"&lt;category&gt;
+</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>income_type</name>
+                            <value>$"BRx_TransactionIdentifierValue_IncomeTypecode"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>other_income_type</name>
+                            <value>$"BRx_TransactionIdentifierValue_OtherIncomeTypeCode"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>record_date</name>
+                            <value>$"BRx_TransactionDateValue_RecordDate"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>payable_date</name>
+                            <value>$"BRx_TransactionDateValue_SettlementDate"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>event_rate</name>
+                            <value>$"BRx_TransactionRateValue_CAEntitlementRate"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>event_description</name>
+                            <value>$"BRx_TransactionNarrativeValue_CAEventDescription"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>quantity</name>
+                            <value>$"BRx_TransactionQuantityValue_TransactionQuantity"{Remove:-,+}</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>qty_sign</name>
+                            <value>$?($"BRx_TransactionQuantityValue_TransactionQuantity" != "",
+	$?($"BRx_TransactionQuantityValue_TransactionQuantity"{:1:1} == "-",
+	-,
+	+)
+,)</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>elquan</name>
+                            <value>$"BRx_TransactionQuantityValue_EligibleQuantity"{Remove:-,+}</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>elquan_sign</name>
+                            <value>$?($"BRx_TransactionQuantityValue_EligibleQuantity" != "",
+	$?($"BRx_TransactionQuantityValue_EligibleQuantity"{:1:1} == "-",
+	-,
+	+)
+,)</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>bal_status</name>
+                            <value>$"BRx_TransactionPartyIdentifierValue__CorporateActionAccountCode"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>book_value</name>
+                            <value>$"BRx_TransactionAmountValue_BookValue"{Remove:-,+}</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>bv_sign</name>
+                            <value>$?($"BRx_TransactionAmountValue_BookValue" != "",
+	$?($"BRx_TransactionAmountValue_BookValue"{:1:1} == "-",
+	-,
+	+)
+,)</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>amt_type</name>
+                            <value>$"TransactionAmountType_concat"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>amount</name>
+                            <value>$"TransactionAmountValue_concat"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>amount_sign</name>
+                            <value>$"TransactionAmountSignValue_concat"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>event_currency</name>
+                            <value>$"BRx_TransactionAmountCurrency_Gross"
+</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>conv_amount</name>
+                            <value>$"BRx_TransactionAmountValue_TransactionAmount"{Remove:-,+}
+</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>conv_amount_sign</name>
+                            <value>$?($"BRx_TransactionAmountValue_TransactionAmount" != "",
+	$?($"BRx_TransactionAmountValue_TransactionAmount"{:1:1} == "-",
+	-,
+	+)
+,)</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>account_currency</name>
+                            <value>$"BRx_TransactionAmountCurrency_TransactionAmount"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>exchange_rate</name>
+                            <value>$"BRx_TransactionRateValue_ForexRate"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>entry_override</name>
+                            <value>$"BRx_TransactionClassificationValue_CAEntryTypeOverride"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>tax_category</name>
+                            <value>$"BRx_TransactionNarrativeValue_TaxCategoryCode"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>event_owner</name>
+                            <value>$"BRx_TransactionPartyIdentifierValue_Organization_Internal"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>country_income_source</name>
+                            <value>$"BRx_TransactionCountry"</value>
+                        </messageElement>
+                        <messageElement>
+                            <name>transaction_status</name>
+                            <value>$"BRx_TransactionStatus"&lt;transaction_status&gt;</value>
+                        </messageElement>
+                    </messageElement>
+                </messageElement>
+            </messageDefinition>
+        </message>
+    </Messages>
+    <Lists>
+        <list>
+            <listDefinition>
+                <listCategory>
+                    <name>SIS</name>
+                </listCategory>
+                <listDetail>
+                    <name>amount_type</name>
+                </listDetail>
+                <listElement>
+                    <key>Gross</key>
+                    <value>GAM</value>
+                </listElement>
+            </listDefinition>
+        </list>
+        <list>
+            <listDefinition>
+                <listCategory>
+                    <name>SIS</name>
+                </listCategory>
+                <listDetail>
+                    <name>fee_type</name>
+                </listDetail>
+                <listElement>
+                    <key>NonResidentFlatTaxRate</key>
+                    <value>NRX</value>
+                </listElement>
+                <listElement>
+                    <key>NonResidentWithholdingTax</key>
+                    <value>NRT</value>
+                </listElement>
+                <listElement>
+                    <key>USTaxWithheld</key>
+                    <value>WHX</value>
+                </listElement>
+                <listElement>
+                    <key>ADRFee</key>
+                    <value>FEE</value>
+                </listElement>
+                <listElement>
+                    <key>TransactionFee</key>
+                    <value>FEE</value>
+                </listElement>
+            </listDefinition>
+        </list>
+        <list>
+            <listDefinition>
+                <listCategory>
+                    <name>SIS</name>
+                </listCategory>
+                <listDetail>
+                    <name>category</name>
+                </listDetail>
+                <listElement>
+                    <key>Payment</key>
+                    <value>P</value>
+                </listElement>
+                <listElement>
+                    <key>Prepayment</key>
+                    <value>S</value>
+                </listElement>
+            </listDefinition>
+        </list>
+        <list>
+            <listDefinition>
+                <listCategory>
+                    <name>SIS</name>
+                </listCategory>
+                <listDetail>
+                    <name>payment_type</name>
+                </listDetail>
+                <listElement>
+                    <key>Dividend</key>
+                    <value>DV</value>
+                </listElement>
+                <listElement>
+                    <key>Interest</key>
+                    <value>IN</value>
+                </listElement>
+                <listElement>
+                    <key>CashIncentive</key>
+                    <value>CI</value>
+                </listElement>
+                <listElement>
+                    <key>PrincipalCash</key>
+                    <value>PC</value>
+                </listElement>
+                <listElement>
+                    <key>LongtermCapitalGain</key>
+                    <value>LT</value>
+                </listElement>
+                <listElement>
+                    <key>ShorttermCapitalGain</key>
+                    <value>ST</value>
+                </listElement>
+                <listElement>
+                    <key>ReturnOfCapital</key>
+                    <value>RC</value>
+                </listElement>
+                <listElement>
+                    <key>Security</key>
+                    <value>S</value>
+                </listElement>
+                <listElement>
+                    <key>DebitCash</key>
+                    <value>DC</value>
+                </listElement>
+                <listElement>
+                    <key>DebitSecurity</key>
+                    <value>DS</value>
+                </listElement>
+                <listElement>
+                    <key>FractionalShares</key>
+                    <value>FS</value>
+                </listElement>
+                <listElement>
+                    <key>CashInLieu</key>
+                    <value>CL</value>
+                </listElement>
+            </listDefinition>
+        </list>
+        <list>
+            <listDefinition>
+                <listCategory>
+                    <name>SIS</name>
+                </listCategory>
+                <listDetail>
+                    <name>transaction_status</name>
+                </listDetail>
+                <listElement>
+                    <key>New</key>
+                    <value>New</value>
+                </listElement>
+                <listElement>
+                    <key>Cancel</key>
+                    <value>CXL</value>
+                </listElement>
+            </listDefinition>
+        </list>
+        <list>
+            <listDefinition>
+                <listCategory>
+                    <name>SIS</name>
+                </listCategory>
+                <listDetail>
+                    <name>tax_type</name>
+                </listDetail>
+                <listElement>
+                    <key>WithholdingTax</key>
+                    <value>WHT</value>
+                </listElement>
+                <listElement>
+                    <key>WithholdingTax01</key>
+                    <value>W01</value>
+                </listElement>
+                <listElement>
+                    <key>WithholdingTax02</key>
+                    <value>W02</value>
+                </listElement>
+                <listElement>
+                    <key>WithholdingTax03</key>
+                    <value>W03</value>
+                </listElement>
+                <listElement>
+                    <key>WithholdingTax04</key>
+                    <value>W04</value>
+                </listElement>
+                <listElement>
+                    <key>WithholdingTax05</key>
+                    <value>W05</value>
+                </listElement>
+                <listElement>
+                    <key>WithholdingTax06</key>
+                    <value>W06</value>
+                </listElement>
+                <listElement>
+                    <key>WithholdingTax07</key>
+                    <value>W07</value>
+                </listElement>
+                <listElement>
+                    <key>WithholdingTax08</key>
+                    <value>W08</value>
+                </listElement>
+                <listElement>
+                    <key>WithholdingTax09</key>
+                    <value>W09</value>
+                </listElement>
+                <listElement>
+                    <key>AdditionalWithholdingTax</key>
+                    <value>AWT</value>
+                </listElement>
+                <listElement>
+                    <key>AdditionalWithholdingTax04</key>
+                    <value>A04</value>
+                </listElement>
+                <listElement>
+                    <key>AdditionalWithholdingTax05</key>
+                    <value>A05</value>
+                </listElement>
+                <listElement>
+                    <key>AdditionalWithholdingTax06</key>
+                    <value>A06</value>
+                </listElement>
+                <listElement>
+                    <key>AdditionalWithholdingTax08</key>
+                    <value>A08</value>
+                </listElement>
+                <listElement>
+                    <key>AdditionalWithholdingTax09</key>
+                    <value>A09</value>
+                </listElement>
+            </listDefinition>
+        </list>
+    </Lists>
+</Translator>

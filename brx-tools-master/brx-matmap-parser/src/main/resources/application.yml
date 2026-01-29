@@ -1,0 +1,39 @@
+brx:
+  logical:
+    model:
+      filename: BRxLogicalModel.xlsx
+      local:
+        location: brxlogicalmodel/
+      external:
+        gitlab:
+          url: https://git.devops.broadridge.net/GTO-FTB/EP/documentation
+          location : sites/brx/data/
+      ignored:
+        sheets: Model Version,Alphabetical Lists,EnumerationSource Metadata,Business Models
+      loading :
+        strategy : gitlabRepository
+  gitlab:
+    access:
+      token: ${GITLAB_ACCESS_TOKEN}
+    host: https://git.devops.broadridge.net
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: mysecretpassword
+    url: jdbc:postgresql://localhost:5432/postgres
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+server:
+  port: 8081
+  tomcat:
+    max-part-count: 50 # maximum number of files in a multipart request
+logging:
+  level:
+    com.broadridge.brx.matmapparser: INFO

@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRx Tools - UI Mock Suite</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0066cc;
+            --primary-dark: #004499;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --border: #dee2e6;
+            --shadow: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-lg: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            color: var(--dark);
+        }
+
+        .navbar {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 2rem;
+            margin-left: auto;
+        }
+
+        .nav-tab {
+            background: none;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--dark);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .nav-tab:hover {
+            color: var(--primary);
+        }
+
+        .nav-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .card-subtitle {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        .card-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .badge-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        thead {
+            background: var(--light);
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border);
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        tbody tr {
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        tbody tr:hover {
+            background: #f0f5ff;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-valid {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-flagged {
+            background: #ffe0e6;
+            color: #c71c24;
+        }
+
+        .expand-icon {
+            display: inline-block;
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* DRAWER STYLES */
+        .drawer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 2px solid var(--border);
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
+            z-index: 500;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .drawer.active {
+            transform: translateY(0);
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--light);
+            position: sticky;
+            top: 0;
+        }
+
+        .drawer-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .drawer-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .drawer-content {
+            padding: 2rem;
+        }
+
+        .drawer-section {
+            margin-bottom: 2rem;
+        }
+
+        .drawer-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .mapping-code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .drawer-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .drawer-info-item {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 6px;
+        }
+
+        .drawer-info-label {
+            color: #666;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .drawer-info-value {
+            font-weight: 600;
+            color: var(--dark);
+            word-break: break-all;
+        }
+
+        .enum-badge {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 0.4rem 0.8rem;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            margin: 0.25rem;
+        }
+
+        .drawer-form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .drawer-form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .drawer-form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        .drawer-actions {
+            display: flex;
+            gap: 1rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .pivot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .pivot-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .pivot-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .pivot-card-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1.5rem;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pivot-card-header:hover {
+            background: linear-gradient(135deg, var(--primary-dark), #003366);
+        }
+
+        .pivot-card-system {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .pivot-card-system-detail {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .pivot-card-status {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.2);
+            font-size: 1rem;
+        }
+
+        .pivot-card-body {
+            padding: 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s;
+        }
+
+        .pivot-card.expanded .pivot-card-body {
+            max-height: 600px;
+        }
+
+        .pivot-section {
+            margin-bottom: 1rem;
+        }
+
+        .pivot-section-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: #666;
+        }
+
+        .pivot-code {
+            background: #f5f5f5;
+            padding: 0.75rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .pivot-action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .alert-icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .drawer-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-tabs {
+                gap: 0.5rem;
+            }
+
+            .nav-tab {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-brand">BRx Tools Admin Suite</div>
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="switchPage('admin')">🔧 Admin Config</button>
+            <button class="nav-tab" onclick="switchPage('query')">🔍 Query Mappings</button>
+            <button class="nav-tab" onclick="switchPage('pivot')">📊 Target View</button>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <!-- PAGE 1: ADMIN CONFIGURATION -->
+        <div id="admin" class="page active">
+            <div class="page-header">
+                <h1 class="page-title">🔧 Admin Configuration</h1>
+                <p class="page-subtitle">Manage repositories, exclusions, and logical model references</p>
+            </div>
+
+            <!-- REPOSITORY SOURCES SECTION -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span>📁</span> Repository Sources
+                </h2>
+
+                <button class="btn btn-primary" onclick="openModal('addRepoModal')">
+                    + Add Repository Link
+                </button>
+
+                <div style="margin-top: 1.5rem;">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">NAPE Trades & Finance</div>
+                                <div class="card-subtitle">https://gitlab.com/broadridge/nape/finance.git</div>
+                            </div>
+                            <span class="card-badge badge-active">✓ Active</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                            <div>
+                                <div style="color: #666; font-size: 0.9rem;">Branch: main</div>
+                                <div style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">Type: GitLab</div>
+                            </div>
+                            <div>
+                                <div style="color: #666; font-size: 0.9rem;">Last Scan: 2 hours ago</div>
+                                <div style="color: var(--success); font-size: 0.9rem; margin-top: 0.5rem;">Status: ✓ Connected</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-secondary btn-sm">Edit</button>
+                            <button class="btn btn-danger btn-sm">Remove</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">APEX Payments</div>
+                                <div class="card-subtitle">https://github.com/broadridge/apex/payments.git</div>
+                            </div>
+                            <span class="card-badge badge-active">✓ Active</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                            <div>
+                                <div style="color: #666; font-size: 0.9rem;">Branch: develop</div>
+                                <div style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">Type: GitHub</div>
+                            </div>
+                            <div>
+                                <div style="color: #666; font-size: 0.9rem;">Last Scan: 1 day ago</div>
+                                <div style="color: var(--success); font-size: 0.9rem; margin-top: 0.5rem;">Status: ✓ Connected</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-secondary btn-sm">Edit</button>
+                            <button class="btn btn-danger btn-sm">Remove</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">CUSTODIAN Settlement</div>
+                                <div class="card-subtitle">https://dev.azure.com/broadridge/custodian</div>
+                            </div>
+                            <span class="card-badge badge-inactive">⚠ Inactive</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                            <div>
+                                <div style="color: #666; font-size: 0.9rem;">Branch: main</div>
+                                <div style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">Type: Azure DevOps</div>
+                            </div>
+                            <div>
+                                <div style="color: #666; font-size: 0.9rem;">Last Scan: 5 days ago</div>
+                                <div style="color: var(--warning); font-size: 0.9rem; margin-top: 0.5rem;">Status: ⚠ Connection Error</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-secondary btn-sm">Edit</button>
+                            <button class="btn btn-danger btn-sm">Remove</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; text-align: center;">
+                    <button class="btn btn-primary" onclick="triggerScanAll()" style="background: white; color: var(--primary); padding: 1rem 2rem; font-size: 1.1rem;">
+                        🔄 Scan All Repositories
+                    </button>
+                    <div style="color: white; font-size: 0.9rem; margin-top: 0.75rem;">This will scan all active repositories and extract new mappings</div>
+                </div>
+            </div>
+
+            <!-- EXCLUSION LIST SECTION -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span>🚫</span> Exclusion List
+                </h2>
+
+                <button class="btn btn-primary" onclick="openModal('addExclusionModal')">
+                    + Add Exclusion Pattern
+                </button>
+
+                <div style="margin-top: 1.5rem;">
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                            <div>
+                                <div class="card-title">**/draft/**/*.matmap</div>
+                                <div class="card-subtitle">Glob pattern</div>
+                            </div>
+                            <span class="card-badge badge-active">✓ Active</span>
+                        </div>
+                        <div style="background: #f5f5f5; padding: 1rem; border-radius: 4px; margin-bottom: 1rem; font-size: 0.9rem;">
+                            Draft mappings under review - will be activated after UAT
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                            <div>
+                                <div class="card-title">**/obsolete/**/*.matmap</div>
+                                <div class="card-subtitle">Glob pattern</div>
+                            </div>
+                            <span class="card-badge badge-active">✓ Active</span>
+                        </div>
+                        <div style="background: #f5f5f5; padding: 1rem; border-radius: 4px; margin-bottom: 1rem; font-size: 0.9rem;">
+                            Legacy system being deprecated in Q2 2026
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BRX LOGICAL MODEL SECTION -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span>📚</span> BRx Logical Model Reference
+                </h2>
+
+                <div class="alert alert-info">
+                    <span class="alert-icon">ℹ️</span>
+                    <div>
+                        <strong>Current Version:</strong> 2024-01-28 v3.5
+                        <div style="font-size: 0.9rem; margin-top: 0.5rem;">Updated 2 weeks ago • Next update: Feb 11, 2026</div>
+                    </div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                        <div>
+                            <div style="color: #666; font-size: 0.9rem;">Source Location</div>
+                            <div style="font-weight: 600; margin-top: 0.5rem;">SharePoint > BRx Data Management > LogicalModel.xlsx</div>
+                        </div>
+                        <div>
+                            <div style="color: #666; font-size: 0.9rem;">Statistics</div>
+                            <div style="font-weight: 600; margin-top: 0.5rem;">Domains: 12 | Entities: 156 | Attributes: 4,230 | Enums: 892</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-primary" onclick="alert('Downloading latest logical model from SharePoint...')">
+                        ⬇️ Update Now
+                    </button>
+                    <button class="btn btn-secondary">
+                        ⚙️ Configure Auto-Sync
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 2: QUERY MAPPINGS -->
+        <div id="query" class="page">
+            <div class="page-header">
+                <h1 class="page-title">🔍 Query Mappings</h1>
+                <p class="page-subtitle">Search and filter all mappings with advanced criteria. Click any row to view full mapping details.</p>
+            </div>
+
+            <div class="section">
+                <!-- SIMPLE SEARCH -->
+                <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                    <input type="text" class="form-control" placeholder="Quick search mappings..." style="flex: 1;">
+                    <button class="btn btn-primary">🔍 Search</button>
+                </div>
+
+                <!-- ADVANCED FILTERS -->
+                <details style="margin-bottom: 1.5rem;">
+                    <summary style="cursor: pointer; color: var(--primary); font-weight: 600; padding: 0.5rem; user-select: none;">
+                        ⚙️ Advanced Filters
+                    </summary>
+                    <div style="margin-top: 1rem; padding: 1.5rem; background: var(--light); border-radius: 6px;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Source Field</label>
+                                <input type="text" class="form-control" placeholder="e.g., FTRDR">
+                            </div>
+                            <div class="form-group">
+                                <label>Target Field</label>
+                                <input type="text" class="form-control" placeholder="e.g., PartyRole">
+                            </div>
+                            <div class="form-group">
+                                <label>File Name</label>
+                                <input type="text" class="form-control" placeholder="e.g., trades.matmap">
+                            </div>
+                            <div class="form-group">
+                                <label>Validation Status</label>
+                                <select class="form-control">
+                                    <option>-- All --</option>
+                                    <option>Valid</option>
+                                    <option>Warning</option>
+                                    <option>Error</option>
+                                    <option>Flagged</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Mapping Type</label>
+                                <select class="form-control">
+                                    <option>-- All --</option>
+                                    <option>Direct</option>
+                                    <option>Calculated</option>
+                                    <option>Lookup</option>
+                                    <option>Conditional</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-sm" style="margin-top: 1rem;">Apply Filters</button>
+                        <button class="btn btn-secondary btn-sm" style="margin-top: 1rem;">Clear Filters</button>
+                    </div>
+                </details>
+
+                <!-- RESULTS COUNT & EXPORT -->
+                <div style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: #666;">Showing <strong>127</strong> mappings</span>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-secondary btn-sm">📊 Excel Export</button>
+                        <button class="btn btn-secondary btn-sm">📋 CSV Export</button>
+                    </div>
+                </div>
+
+                <!-- MAPPING TABLE -->
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 30px;"></th>
+                                <th>Source Field</th>
+                                <th>Target Field</th>
+                                <th>File Name</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Row 1 -->
+                            <tr onclick="openDrawer('FTRDR', 'trades.matmap')">
+                                <td><span class="expand-icon">▼</span></td>
+                                <td><strong>FTRDR</strong></td>
+                                <td>BRx_TransactionParty.PartyRole</td>
+                                <td>trades.matmap</td>
+                                <td>Direct</td>
+                                <td>
+                                    <span class="status-badge status-valid">✓ Valid</span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 2 -->
+                            <tr onclick="openDrawer('BCUSP', 'trades.matmap')">
+                                <td><span class="expand-icon">▼</span></td>
+                                <td><strong>BCUSP</strong></td>
+                                <td>BRx_TransactionInstrument.Identifier</td>
+                                <td>trades.matmap</td>
+                                <td>Calculated</td>
+                                <td>
+                                    <span class="status-badge status-warning">⚠ Warning</span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 3 -->
+                            <tr onclick="openDrawer('FSTCC', 'trades.matmap')">
+                                <td><span class="expand-icon">▼</span></td>
+                                <td><strong>FSTCC</strong></td>
+                                <td>BRx_TransactionAmount.Currency</td>
+                                <td>trades.matmap</td>
+                                <td>Direct</td>
+                                <td>
+                                    <span class="status-badge status-valid">✓ Valid</span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 4 -->
+                            <tr onclick="openDrawer('FCFRT', 'trades.matmap')">
+                                <td><span class="expand-icon">▼</span></td>
+                                <td><strong>FCFRT</strong></td>
+                                <td>BRx_TransactionRate.Value</td>
+                                <td>trades.matmap</td>
+                                <td>Conditional</td>
+                                <td>
+                                    <span class="status-badge status-flagged">🚩 Flagged</span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 5 -->
+                            <tr onclick="openDrawer('PartyRole', 'payroll.matmap')">
+                                <td><span class="expand-icon">▼</span></td>
+                                <td><strong>PartyRole</strong></td>
+                                <td>BRx_TransactionParty.PartyRole</td>
+                                <td>payroll.matmap</td>
+                                <td>Direct</td>
+                                <td>
+                                    <span class="status-badge status-warning">⚠ Warning</span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 6 -->
+                            <tr onclick="openDrawer('SETTLE', 'settlement.matmap')">
+                                <td><span class="expand-icon">▼</span></td>
+                                <td><strong>SETTLE</strong></td>
+                                <td>BRx_Settlement.Status</td>
+                                <td>settlement.matmap</td>
+                                <td>Lookup</td>
+                                <td>
+                                    <span class="status-badge status-valid">✓ Valid</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- PAGINATION -->
+                <div style="display: flex; justify-content: center; gap: 0.5rem;">
+                    <button class="btn btn-secondary btn-sm">← Previous</button>
+                    <button class="btn btn-primary btn-sm">1</button>
+                    <button class="btn btn-secondary btn-sm">2</button>
+                    <button class="btn btn-secondary btn-sm">3</button>
+                    <span style="padding: 0.5rem 0.75rem;">...</span>
+                    <button class="btn btn-secondary btn-sm">10</button>
+                    <button class="btn btn-secondary btn-sm">Next →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 3: TARGET PIVOT VIEW -->
+        <div id="pivot" class="page">
+            <div class="page-header">
+                <h1 class="page-title">📊 Target-Centric Pivot View</h1>
+                <p class="page-subtitle">See all systems that map to a specific BRx target field</p>
+            </div>
+
+            <div class="section">
+                <div style="background: #f9f9f9; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 1.5rem; font-weight: 600;">Filter by BRx Logical Model</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>📌 Domain</label>
+                            <select class="form-control" onchange="updateEntities(this.value)">
+                                <option value="">-- Select Domain --</option>
+                                <option value="transaction">Transaction</option>
+                                <option value="party">Party</option>
+                                <option value="instrument">Instrument</option>
+                                <option value="settlement">Settlement</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>🏛️ Entity</label>
+                            <select class="form-control" id="entitySelect" onchange="updateAttributes(this.value)" disabled>
+                                <option value="">-- Select Entity --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>📋 Attribute</label>
+                            <select class="form-control" id="attributeSelect" onchange="loadPivotData(this.value)" disabled>
+                                <option value="">-- Select Attribute --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>🔍 Enum (Optional)</label>
+                            <input type="text" class="form-control" id="enumSearch" placeholder="Search enum values...">
+                        </div>
+
+                        <div class="form-group" style="display: flex; align-items: flex-end;">
+                            <button class="btn btn-primary btn-sm" onclick="applyPivotFilters()">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SELECTED TARGET INFO -->
+                <div id="targetInfo" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; display: none;">
+                    <h2 id="selectedTarget" style="margin-bottom: 0.5rem;"></h2>
+                    <div id="selectedDetails" style="font-size: 0.95rem; opacity: 0.95;"></div>
+                </div>
+
+                <!-- PIVOT CARDS -->
+                <div id="pivotContainer" class="pivot-grid"></div>
+
+                <!-- EMPTY STATE -->
+                <div id="emptyState" style="text-align: center; padding: 3rem; background: var(--light); border-radius: 8px;">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">📊</div>
+                    <div style="color: #666; font-size: 1.1rem;">Select Domain, Entity, and Attribute to view mappings</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM DRAWER FOR MAPPING DETAILS -->
+    <div id="mappingDrawer" class="drawer">
+        <div class="drawer-header">
+            <div>
+                <div class="drawer-title" id="drawerMappingName"></div>
+                <div style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;" id="drawerFileName"></div>
+            </div>
+            <button class="drawer-close" onclick="closeDrawer()">×</button>
+        </div>
+
+        <div class="drawer-content">
+            <!-- MAPPING CODE SECTION -->
+            <div class="drawer-section">
+                <div class="drawer-section-title">📝 Mapping Definition (from .matmap file)</div>
+                <div class="mapping-code" id="drawerMappingCode">
+// Mapping code will appear here
+                </div>
+            </div>
+
+            <!-- MAPPING INFO GRID -->
+            <div class="drawer-section">
+                <div class="drawer-section-title">ℹ️ Mapping Information</div>
+                <div class="drawer-info-grid">
+                    <div class="drawer-info-item">
+                        <div class="drawer-info-label">Source Field</div>
+                        <div class="drawer-info-value" id="drawerSourceField">--</div>
+                    </div>
+                    <div class="drawer-info-item">
+                        <div class="drawer-info-label">Target Field</div>
+                        <div class="drawer-info-value" id="drawerTargetField">--</div>
+                    </div>
+                    <div class="drawer-info-item">
+                        <div class="drawer-info-label">Mapping Type</div>
+                        <div class="drawer-info-value" id="drawerMappingType">--</div>
+                    </div>
+                    <div class="drawer-info-item">
+                        <div class="drawer-info-label">Current Status</div>
+                        <div class="drawer-info-value" id="drawerStatus">--</div>
+                    </div>
+                    <div class="drawer-info-item">
+                        <div class="drawer-info-label">Extracted By</div>
+                        <div class="drawer-info-value" id="drawerExtractedBy">john.doe</div>
+                    </div>
+                    <div class="drawer-info-item">
+                        <div class="drawer-info-label">Extracted Date</div>
+                        <div class="drawer-info-value" id="drawerExtractedDate">2026-01-28 10:30 AM</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ENUMERATIONS USED -->
+            <div class="drawer-section">
+                <div class="drawer-section-title">🏷️ Enumerations Used</div>
+                <div id="drawerEnums">
+                    <span class="enum-badge">Buyer</span>
+                    <span class="enum-badge">Seller</span>
+                    <span class="enum-badge">Broker</span>
+                    <span class="enum-badge">Organization</span>
+                </div>
+            </div>
+
+            <!-- FLAG FOR REVIEW SECTION -->
+            <div class="drawer-section">
+                <div class="drawer-section-title">🚩 Flag for Review</div>
+                <div class="drawer-form-group">
+                    <label>
+                        <input type="checkbox" id="flagCheckbox" onchange="toggleFlagReason()"> Mark this mapping for review
+                    </label>
+                </div>
+                <div class="drawer-form-group" id="flagReasonDiv" style="display: none;">
+                    <label>Reason/Comment</label>
+                    <textarea id="flagReason" placeholder="Why does this mapping need review?"></textarea>
+                </div>
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="drawer-actions">
+                <button class="btn btn-primary" onclick="saveFlagStatus()">Save Changes</button>
+                <button class="btn btn-secondary" onclick="closeDrawer()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD REPOSITORY MODAL -->
+    <div id="addRepoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add Repository Source</h2>
+                <button class="modal-close" onclick="closeModal('addRepoModal')">×</button>
+            </div>
+            <div>
+                <div class="form-group">
+                    <label>Repository Name</label>
+                    <input type="text" class="form-control" placeholder="e.g., NAPE Trades">
+                </div>
+                <div class="form-group">
+                    <label>Repository URL</label>
+                    <input type="text" class="form-control" placeholder="https://gitlab.com/...">
+                </div>
+                <div class="form-group">
+                    <label>Source Type</label>
+                    <select class="form-control">
+                        <option>GitLab</option>
+                        <option>GitHub</option>
+                        <option>Azure DevOps</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Branch</label>
+                    <input type="text" class="form-control" value="main">
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button class="btn btn-primary" onclick="alert('Repository added!'); closeModal('addRepoModal');">Add</button>
+                    <button class="btn btn-secondary" onclick="closeModal('addRepoModal');">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD EXCLUSION MODAL -->
+    <div id="addExclusionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add Exclusion Pattern</h2>
+                <button class="modal-close" onclick="closeModal('addExclusionModal')">×</button>
+            </div>
+            <div>
+                <div class="form-group">
+                    <label>Pattern</label>
+                    <input type="text" class="form-control" placeholder="e.g., **/draft/**/*.matmap">
+                </div>
+                <div class="form-group">
+                    <label>Reason</label>
+                    <textarea class="form-control" rows="3" placeholder="Why exclude this pattern?"></textarea>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-primary" onclick="alert('Pattern added!'); closeModal('addExclusionModal');">Add</button>
+                    <button class="btn btn-secondary" onclick="closeModal('addExclusionModal');">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // BRx Logical Model Data
+        const brxLogicalModel = {
+            transaction: {
+                name: 'Transaction Domain',
+                entities: {
+                    'BRx_Transaction': {
+                        name: 'BRx_Transaction',
+                        attributes: ['Entity', 'Origin', 'Category', 'Country', 'Version']
+                    },
+                    'BRx_TransactionParty': {
+                        name: 'BRx_TransactionParty',
+                        attributes: ['PartyRole', 'IdentifierType', 'IdentifierValue', 'Organization']
+                    },
+                    'BRx_TransactionInstrument': {
+                        name: 'BRx_TransactionInstrument',
+                        attributes: ['Identifier', 'Type', 'Currency', 'Amount']
+                    },
+                    'BRx_TransactionAmount': {
+                        name: 'BRx_TransactionAmount',
+                        attributes: ['Currency', 'Value', 'Rate', 'Date']
+                    },
+                    'BRx_TransactionRate': {
+                        name: 'BRx_TransactionRate',
+                        attributes: ['Value', 'Type', 'EffectiveDate']
+                    }
+                }
+            },
+            party: {
+                name: 'Party Domain',
+                entities: {
+                    'BRx_Party': {
+                        name: 'BRx_Party',
+                        attributes: ['Name', 'Type', 'Identifier', 'Status']
+                    },
+                    'BRx_PartyAddress': {
+                        name: 'BRx_PartyAddress',
+                        attributes: ['Street', 'City', 'Country', 'PostalCode']
+                    }
+                }
+            },
+            instrument: {
+                name: 'Instrument Domain',
+                entities: {
+                    'BRx_Instrument': {
+                        name: 'BRx_Instrument',
+                        attributes: ['ISIN', 'Sedol', 'Cusip', 'Type', 'Description']
+                    }
+                }
+            },
+            settlement: {
+                name: 'Settlement Domain',
+                entities: {
+                    'BRx_Settlement': {
+                        name: 'BRx_Settlement',
+                        attributes: ['Status', 'Date', 'Amount', 'Currency']
+                    }
+                }
+            }
+        };
+
+        // Mock mapping details
+        const mappingDetails = {
+            'FTRDR': {
+                sourceField: 'FTRDR',
+                targetField: 'BRx_TransactionParty.PartyRole',
+                fileName: 'trades.matmap',
+                type: 'Direct',
+                status: 'Valid',
+                code: `mappingDef FTRDR {
+  source: FTRDR (Field in NAPE Trades)
+  target: BRx_TransactionParty.PartyRole
+  type: Direct
+  logic: $V(BRx_TransactionPartyRole, Organization)
+  validation: PASS
+}`,
+                enums: ['Buyer', 'Seller', 'Broker', 'Organization']
+            },
+            'BCUSP': {
+                sourceField: 'BCUSP',
+                targetField: 'BRx_TransactionInstrument.Identifier',
+                fileName: 'trades.matmap',
+                type: 'Calculated',
+                status: 'Warning',
+                code: `mappingDef BCUSP {
+  source: BCUSP (ISIN identifier)
+  target: BRx_TransactionInstrument.Identifier
+  type: Calculated
+  logic: $CONCAT(
+    $LEFT(BCUSP, 2),
+    "-",
+    $RIGHT(BCUSP, 8)
+  )
+  validation: WARNING - Format may not match all cases
+}`,
+                enums: ['ISIN', 'CUSIP', 'SEDOL']
+            },
+            'FSTCC': {
+                sourceField: 'FSTCC',
+                targetField: 'BRx_TransactionAmount.Currency',
+                fileName: 'trades.matmap',
+                type: 'Direct',
+                status: 'Valid',
+                code: `mappingDef FSTCC {
+  source: FSTCC (Settlement Currency Code)
+  target: BRx_TransactionAmount.Currency
+  type: Direct
+  logic: $V(BRx_TransactionCurrency, $UPPER(FSTCC))
+  validation: PASS
+}`,
+                enums: ['USD', 'EUR', 'GBP', 'JPY', 'CAD']
+            },
+            'FCFRT': {
+                sourceField: 'FCFRT',
+                targetField: 'BRx_TransactionRate.Value',
+                fileName: 'trades.matmap',
+                type: 'Conditional',
+                status: 'Flagged',
+                code: `mappingDef FCFRT {
+  source: FCFRT (FX Rate)
+  target: BRx_TransactionRate.Value
+  type: Conditional
+  logic: $?($"RATEDATE" >= TODAY(),
+    $V(BRx_TransactionRate, FCFRT),
+    $V(BRx_TransactionRate_Historical, FCFRT)
+  )
+  validation: FLAGGED - Complex conditional needs review
+}`,
+                enums: ['SPOT', 'FORWARD', 'SWAP']
+            },
+            'PartyRole': {
+                sourceField: 'PartyRole',
+                targetField: 'BRx_TransactionParty.PartyRole',
+                fileName: 'payroll.matmap',
+                type: 'Direct',
+                status: 'Warning',
+                code: `mappingDef PartyRole {
+  source: PartyRole (Party Role Type)
+  target: BRx_TransactionParty.PartyRole
+  type: Direct
+  logic: $V(BRx_TransactionPartyRole, PartyRole)
+  validation: WARNING - Source contains unmapped values
+}`,
+                enums: ['Buyer', 'Seller', 'Broker', 'ThirdParty']
+            },
+            'SETTLE': {
+                sourceField: 'SETTLE',
+                targetField: 'BRx_Settlement.Status',
+                fileName: 'settlement.matmap',
+                type: 'Lookup',
+                status: 'Valid',
+                code: `mappingDef SETTLE {
+  source: SETTLE (Settlement Status Code)
+  target: BRx_Settlement.Status
+  type: Lookup
+  logic: $LOOKUP(SettlementStatusMap, SETTLE)
+  lookup_table: SettlementStatusMap {
+    "P" -> "Pending"
+    "C" -> "Completed"
+    "F" -> "Failed"
+    "R" -> "Rejected"
+  }
+  validation: PASS
+}`,
+                enums: ['Pending', 'Completed', 'Failed', 'Rejected']
+            }
+        };
+
+        let currentMapping = null;
+
+        function switchPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function triggerScanAll() {
+            alert('🔄 Scanning all active repositories...\n\n- NAPE Trades & Finance\n- APEX Payments\n\nThis will take a few minutes.');
+        }
+
+        // DRAWER FUNCTIONS
+        function openDrawer(sourceField, fileName) {
+            const details = mappingDetails[sourceField];
+            if (!details) return;
+
+            currentMapping = sourceField;
+
+            document.getElementById('drawerMappingName').textContent = `${sourceField} → ${details.targetField}`;
+            document.getElementById('drawerFileName').textContent = `File: ${fileName}`;
+            document.getElementById('drawerMappingCode').textContent = details.code;
+            document.getElementById('drawerSourceField').textContent = details.sourceField;
+            document.getElementById('drawerTargetField').textContent = details.targetField;
+            document.getElementById('drawerMappingType').textContent = details.type;
+            document.getElementById('drawerStatus').textContent = details.status;
+            document.getElementById('drawerEnums').innerHTML = details.enums
+                .map(e => `<span class="enum-badge">${e}</span>`)
+                .join('');
+
+            document.getElementById('flagCheckbox').checked = false;
+            document.getElementById('flagReason').value = '';
+            document.getElementById('flagReasonDiv').style.display = 'none';
+
+            document.getElementById('mappingDrawer').classList.add('active');
+        }
+
+        function closeDrawer() {
+            document.getElementById('mappingDrawer').classList.remove('active');
+            currentMapping = null;
+        }
+
+        function toggleFlagReason() {
+            const reasonDiv = document.getElementById('flagReasonDiv');
+            if (document.getElementById('flagCheckbox').checked) {
+                reasonDiv.style.display = 'block';
+            } else {
+                reasonDiv.style.display = 'none';
+            }
+        }
+
+        function saveFlagStatus() {
+            const isFlagged = document.getElementById('flagCheckbox').checked;
+            const reason = document.getElementById('flagReason').value;
+
+            if (isFlagged && !reason) {
+                alert('Please enter a reason for flagging');
+                return;
+            }
+
+            alert(`✅ Mapping "${currentMapping}" updated!\n\n${isFlagged ? '🚩 Flagged for Review\n' + reason : '✓ Flag removed'}`);
+            closeDrawer();
+        }
+
+        // PIVOT VIEW FUNCTIONS
+        function updateEntities(domain) {
+            const entitySelect = document.getElementById('entitySelect');
+            entitySelect.innerHTML = '<option value="">-- Select Entity --</option>';
+            entitySelect.disabled = true;
+            
+            if (domain && brxLogicalModel[domain]) {
+                Object.keys(brxLogicalModel[domain].entities).forEach(entityKey => {
+                    const option = document.createElement('option');
+                    option.value = entityKey;
+                    option.textContent = brxLogicalModel[domain].entities[entityKey].name;
+                    entitySelect.appendChild(option);
+                });
+                entitySelect.disabled = false;
+            }
+
+            document.getElementById('attributeSelect').innerHTML = '<option value="">-- Select Attribute --</option>';
+            document.getElementById('attributeSelect').disabled = true;
+        }
+
+        function updateAttributes(entity) {
+            const attributeSelect = document.getElementById('attributeSelect');
+            attributeSelect.innerHTML = '<option value="">-- Select Attribute --</option>';
+            attributeSelect.disabled = true;
+
+            if (entity) {
+                for (let domain in brxLogicalModel) {
+                    if (brxLogicalModel[domain].entities[entity]) {
+                        const attrs = brxLogicalModel[domain].entities[entity].attributes;
+                        attrs.forEach(attr => {
+                            const option = document.createElement('option');
+                            option.value = attr;
+                            option.textContent = attr;
+                            attributeSelect.appendChild(option);
+                        });
+                        attributeSelect.disabled = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        function applyPivotFilters() {
+            const domain = document.querySelector('[onchange="updateEntities(this.value)"]').value;
+            const entity = document.getElementById('entitySelect').value;
+            const attribute = document.getElementById('attributeSelect').value;
+
+            if (!domain || !entity || !attribute) {
+                alert('Please select Domain, Entity, and Attribute');
+                return;
+            }
+
+            loadPivotData(attribute, entity, domain);
+        }
+
+        function loadPivotData(attribute, entity, domain) {
+            document.getElementById('targetInfo').style.display = 'block';
+            document.getElementById('selectedTarget').textContent = `${entity}.${attribute}`;
+            document.getElementById('selectedDetails').textContent = `Domain: ${brxLogicalModel[domain].name} | Entity: ${entity} | Attribute: ${attribute}`;
+
+            const pivotContainer = document.getElementById('pivotContainer');
+            pivotContainer.innerHTML = `
+                <div class="pivot-card">
+                    <div class="pivot-card-header" onclick="toggleCard(this)">
+                        <div>
+                            <div class="pivot-card-system">NAPE Trades & Finance</div>
+                            <div class="pivot-card-system-detail">nape/finance/trades.matmap</div>
+                        </div>
+                        <div class="pivot-card-status">✓ Valid</div>
+                    </div>
+                    <div class="pivot-card-body">
+                        <div class="pivot-section">
+                            <div class="pivot-section-title">Source Field</div>
+                            <strong>FTRDR</strong>
+                        </div>
+                        <div class="pivot-section">
+                            <div class="pivot-section-title">Mapping Logic</div>
+                            <div class="pivot-code">$V(BRx_${entity}_${attribute}, Organization)</div>
+                        </div>
+                        <div class="pivot-action-buttons">
+                            <button class="btn btn-sm btn-secondary" style="flex: 1;" onclick="openDrawer('FTRDR', 'trades.matmap')">View Details</button>
+                            <button class="btn btn-sm btn-secondary" style="flex: 1;">🚩 Flag</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pivot-card">
+                    <div class="pivot-card-header" onclick="toggleCard(this)">
+                        <div>
+                            <div class="pivot-card-system">APEX Payments</div>
+                            <div class="pivot-card-system-detail">apex/payments/payroll.matmap</div>
+                        </div>
+                        <div class="pivot-card-status" style="background: rgba(255,255,255,0.3);">⚠ Warning</div>
+                    </div>
+                    <div class="pivot-card-body">
+                        <div class="pivot-section">
+                            <div class="pivot-section-title">Source Field</div>
+                            <strong>PartyRole</strong>
+                        </div>
+                        <div class="pivot-section">
+                            <div class="pivot-section-title">Mapping Logic</div>
+                            <div class="pivot-code">$V(BRx_${entity}_${attribute}, PartyRole)</div>
+                        </div>
+                        <div class="pivot-action-buttons">
+                            <button class="btn btn-sm btn-secondary" style="flex: 1;" onclick="openDrawer('PartyRole', 'payroll.matmap')">View Details</button>
+                            <button class="btn btn-sm btn-secondary" style="flex: 1;">🚩 Flag</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('emptyState').style.display = 'none';
+        }
+
+        function toggleCard(header) {
+            const card = header.closest('.pivot-card');
+            card.classList.toggle('expanded');
+        }
+
+        // Close modals on outside click
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+
+        // Close drawer on outside click
+        document.getElementById('mappingDrawer').addEventListener('click', (e) => {
+            if (e.target.id === 'mappingDrawer') {
+                closeDrawer();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+services:
+  brx-matmap-parser:
+    container_name: brx-matmap-parser
+    restart: no
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        BRANCH_NAME: local
+        MAVEN_SETTINGS: maven_settings.xml
+    environment:
+      SPRING_PROFILES_ACTIVE: "dev"
+    networks:
+      - app
+    ports:
+      - "8081:8080"
+
+  postgres:
+    image: docker.io/postgres:16.4
+    restart: on-failure
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    #    volumes:
+    #      - "./docker-volume/psql:/var/lib/postgresql/data"
+    networks:
+      - local-infra
+    ports:
+      - "5432:5432"
+
+networks:
+  app:
+    driver: bridge
+  local-infra:
+    driver: bridge

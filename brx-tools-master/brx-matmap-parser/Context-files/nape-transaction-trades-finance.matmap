@@ -1,0 +1,2663 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Translator xmlns="http://messageautomation.com/translator/v1/XMLSchema.xsd">
+    <Messages>
+        <message>
+            <messageDefinition>
+                <messageCategory>
+                    <name>nape-transaction-finance-input</name>
+                </messageCategory>
+                <messageDetail>
+                    <name>BRX_FINFILEP</name>
+                    <type>XML</type>
+                    <allowBlanks>false</allowBlanks>
+                </messageDetail>
+                <messageElement>
+                    <name>feed</name>
+                    <mandatory>true</mandatory>
+                    <repeatsMax>1</repeatsMax>
+                    <value>$V(BRx_TransactionClientIdentifier,$"Impact_TrailBlazer_ClientId"{Trim})
+$V(BRx_TransactionOrigin,IMPACT)
+$V(BRx_TransactionCategory,Financing)
+$V(BRx_TransactionCountry,USA)
+
+$V(BRx_TransactionPartyRole_count,,INC)
+$V(BRx_TransactionPartyIdentifierType_$"BRx_TransactionPartyRole_count",Internal)
+$V(BRx_TransactionPartyIdentifierValue_$"BRx_TransactionPartyRole_count",$"Impact_TrailBlazer_ClientId"{Trim})
+$V(BRx_TransactionPartyRole_$"BRx_TransactionPartyRole_count",Organization)
+
+</value>
+                    <messageValue>
+                        <suffix>xmlns:xsi</suffix>
+                        <value>http://www.w3.org/2001/XMLSchema-instance</value>
+                    </messageValue>
+                    <messageValue>
+                        <suffix>name</suffix>
+                        <value>$"name"</value>
+                        <mandatoryAttribute>true</mandatoryAttribute>
+                    </messageValue>
+                    <messageElement>
+                        <name>RECORD_TYPE</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>ID</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>TRIGGER_EVENT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>JOB_NAME</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>USER</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>TIMESTAMP</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"TIMESTAMP"
+$V(Tmp_Date,$"TIMESTAMP"{Substr:1:10})
+$V(Tmp_CCYY,$"TIMESTAMP"{Substr:1:4})
+$V(Tmp_Month,$"TIMESTAMP"{Substr:6:2})
+$V(Tmp_Day,$"TIMESTAMP"{Substr:9:2})
+$V(Tmp_HH,$"TIMESTAMP"{Substr:12:2})
+$V(Tmp_MM,$"TIMESTAMP"{Substr:15:2})
+$V(Tmp_SS,$"TIMESTAMP"{Substr:18:2})
+$V(Tmp_mmm,$"TIMESTAMP"{Substr:21:3})
+$V(Tmp_timestamp,$"Tmp_Date"T$"Tmp_HH":$"Tmp_MM":$"Tmp_SS"Z)
+$V(TimeStamp,$"Tmp_CCYY"$"Tmp_Month"$"Tmp_Day"$"Tmp_HH"$"Tmp_MM"$"Tmp_SS"$"Tmp_mmm")
+$V(BRx_TransactionVersion,$"TimeStamp")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>BCUSP</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"BCUSP"
+$?($"BCUSP" != "",
+	$V(BRx_TransactionInstrument_Count,,INC)
+	$L(INFO,"In Cusip formatting")
+	$V(BRx_TransactionInstrumentRole_$"BRx_TransactionInstrument_Count",PrimaryInstrument)
+	$V(BRx_TransactionInstrumentIdentifierType_$"BRx_TransactionInstrument_Count",CUSIP)
+	$V(BRx_TransactionInstrumentIdentifierValue_$"BRx_TransactionInstrument_Count",$"BCUSP")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>BIIDC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"BIIDC"
+$?($"BIIDC" != "",
+	$V(BRx_TransactionInstrument_Count,,INC)
+	$V(BRx_TransactionInstrumentRole_$"BRx_TransactionInstrument_Count",PrimaryInstrument)
+	$V(BRx_TransactionInstrumentIdentifierType_$"BRx_TransactionInstrument_Count",ISIN)
+	$V(BRx_TransactionInstrumentIdentifierValue_$"BRx_TransactionInstrument_Count",$"BIIDC")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>BADPN</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"BADPN"
+$?($"BADPN" != "",
+	$V(BRx_TransactionInstrument_Count,,INC)
+	$V(BRx_TransactionInstrumentRole_$"BRx_TransactionInstrument_Count",PrimaryInstrument)
+	$V(BRx_TransactionInstrumentIdentifierType_$"BRx_TransactionInstrument_Count",Internal)
+	$V(BRx_TransactionInstrumentIdentifierValue_$"BRx_TransactionInstrument_Count",$"BADPN")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>BSDOL</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"BSDOL"
+$?($"BSDOL" != "",
+	$V(BRx_TransactionInstrument_Count,,INC)
+	$V(BRx_TransactionInstrumentRole_$"BRx_TransactionInstrument_Count",PrimaryInstrument)
+	$V(BRx_TransactionInstrumentIdentifierType_$"BRx_TransactionInstrument_Count",SEDOL)
+	$V(BRx_TransactionInstrumentIdentifierValue_$"BRx_TransactionInstrument_Count",$"BSDOL")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>BIKEY1</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"BIKEY1"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>CURDT</name>
+                        <mandatory>true</mandatory>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>DNXBDT</name>
+                        <mandatory>true</mandatory>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>DPVBDT</name>
+                        <mandatory>true</mandatory>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSTCC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FSTCC"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSECC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FSECC"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FENCD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FENCD"
+$V(BRx_TransactionEntity,$"FENCD")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTRDR</name>
+                        <description>BRx_TransactionParty:TradingAccount</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FTRDR"
+$?($"FTRDR" != "",
+	$V(BRx_TransactionParty_Count,,INC)
+	$V(BRx_TransactionPartyRole_$"BRx_TransactionParty_Count",TradingAccount)
+	$V(BRx_TransactionPartyIdentifierType_$"BRx_TransactionParty_Count",Internal)
+	$V(BRx_TransactionPartyIdentifierValue_$"BRx_TransactionParty_Count",$"FTRDR")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FARBN</name>
+                        <description>$"FARBN"</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FKMKT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FKTIN</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FKICC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FKIC2</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FKIC3</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FKMDT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FKCSP</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FKSFX</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCFAM</name>
+                        <description>BRx_TransactionQuantity:TransactionQuantity</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FCFAM"
+$?($"FCFAM" != "",
+	$V(BRx_TransactionQuantity_Count,,INC)
+	$V(BRx_TransactionQuantityType_$"BRx_TransactionQuantity_Count",TransactionQuantity)
+	$V(BRx_TransactionQuantityValue_$"BRx_TransactionQuantity_Count",$"FCFAM")
+	$V(BRx_TransactionQuantityInstrumentIdentifierType_$"BRx_TransactionQuantity_Count",CUSIP)
+	$V(BRx_TransactionQuantityInstrumentIdentifierValue_$"BRx_TransactionQuantity_Count",$"BCUSP")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCFRT</name>
+                        <description>$"FCFRT"
+$V(BRx_TransactionRate_Count,,INC)
+$V(BRx_TransactionRateType_$"BRx_TransactionRate_Count",FinancingRate)
+$v(BRx_TransactionRateSubtype_$"BRx_TransactionRate_Count",Spot)
+$V(BRx_TransactionRateValue_$"BRx_TransactionRate_Count",$"FCFRT")</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCFPR</name>
+                        <description>BRx_TransactionPrice:ExecutionPrice:CleanPrice</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FCFPR"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCRVI</name>
+                        <description>BRx_TransactionStatus - Uses Translation List</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FCRVI"
+$V(BRx_TransactionStatus,$"FCRVI"&lt;TransactionStatus&gt;)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FDATE</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFNAM</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFNDT</name>
+                        <description>BRx_TransactionDate:TransactionDate</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FFNDT"
+$?($"FFNDT" != "",
+	$V(TMPTRDT_CCYY,$"FFNDT"{Substr:1:4})
+	$V(TMPTRDT_MM,$"FFNDT"{Substr:5:2})
+	$V(TMPTRDT_DD,$"FFNDT"{Substr:7:2})
+	$V(tradeDate,$"TMPTRDT_CCYY"-$"TMPTRDT_MM"-$"TMPTRDT_DD")
+	$V(BRx_TransactionDate_Count,,INC)
+	$V(BRx_TransactionDateType_$"BRx_TransactionDate_Count",TransactionDate)
+	$V(BRx_TransactionDateValue_$"BRx_TransactionDate_Count",$"tradeDate")
+,)
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFNNO</name>
+                        <description>BRx_TransactionIdentifier:InternalReference</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FFNNO"
+$?($"FFNNO" != "",
+	$V(BRx_TransactionIdentifier_Count,,INC)
+	$V(BRx_TransactionIdentifierType_$"BRx_TransactionIdentifier_Count",InternalReference)
+	$V(BRx_TransactionIdentifierValue_$"BRx_TransactionIdentifier_Count",$"FFNNO")	
+,)
+$V(BRx_TransactionId,$"FENCD"$"FFNDT"$"FFNNO")
+$V(BRx_TransactionUniqueMessageId,$"FENCD"$"FFNDT"$"FFNNO")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFNTP</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FFNTP"
+$V(BRx_TransactionDirection,$"FFNTP"&lt;FinanceType&gt;)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFNRT</name>
+                        <description>BRx_TransactionRate:FinancingRate:Spot</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FFNRT"
+$V(BRx_TransactionRate_Count,,INC)
+$V(BRx_TransactionRateType_$"BRx_TransactionRate_Count",FinancingRate)
+$v(BRx_TransactionRateSubtype_$"BRx_TransactionRate_Count",Spot)
+$V(BRx_TransactionRateValue_$"BRx_TransactionRate_Count",$"FFNRT"{trim})
+,)
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFNPR</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFPRN</name>
+                        <description>Rx_TransactionAmount:PrincipalAmount</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FFPRN"
+$V(BRx_TransactionAmount_Count,,INC)
+$V(BRx_TransactionAmountType_$"BRx_TransactionAmount_Count",PrincipalAmount)
+$V(BRx_TransactionAmountValue_$"BRx_TransactionAmount_Count",$"FFPRN")
+$V(BRx_TransactionAmountCurrency_$"BRx_TransactionAmount_Count",$"FSTCC")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRTDT</name>
+                        <description>BRx_TransactionDate:ClosingDate</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FRTDT"
+$?($"FRTDT" != "" &amp;&amp; $"FRTDT" != "00000000",
+	$V(TMPTRDT_CCYY,$"FRTDT"{Substr:1:4})
+	$V(TMPTRDT_MM,$"FRTDT"{Substr:5:2})
+	$V(TMPTRDT_DD,$"FRTDT"{Substr:7:2})
+	$V(dateClose,$"TMPTRDT_CCYY"-$"TMPTRDT_MM"-$"TMPTRDT_DD")
+	$V(BRx_TransactionDate_Count,,INC)
+	$V(BRx_TransactionDateType_$"BRx_TransactionDate_Count",ClosingDate)
+	$V(BRx_TransactionDateValue_$"BRx_TransactionDate_Count",$"dateClose")
+,)
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FMKPR</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FMKDP</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FNAME</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FNAME"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCACT</name>
+                        <description>BRx_TransactionParty:CustomerAccount</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FCACT"
+$?($"FCACT" != "",
+	$V(BRx_TransactionAccountIdentifierType,AccountNumber)
+	$V(BRx_TransactionAccountIdentifierValue,$"FCACT")
+	
+	$V(BRx_TransactionParty_Count,,INC)
+	$V(BRx_TransactionPartyRole_$"BRx_TransactionParty_Count",CustomerAccount)
+	$V(BRx_TransactionPartyIdentifierType_$"BRx_TransactionParty_Count",Internal)
+	$V(BRx_TransactionPartyIdentifierValue_$"BRx_TransactionParty_Count",$"FCACT")
+
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSPCD</name>
+                        <description>BRx_TransactionParty:Salesperson</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FSPCD"
+$?($"FSPCD" != "",
+	$V(BRx_TransactionParty_Count,,INC)
+	$V(BRx_TransactionPartyRole_$"BRx_TransactionParty_Count",Salesperson)
+	$V(BRx_TransactionPartyIdentifierType_$"BRx_TransactionParty_Count",Internal)
+	$V(BRx_TransactionPartyIdentifierValue_$"BRx_TransactionParty_Count",$"FSPCD")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FUSER</name>
+                        <description>BRx_TransactionEnteredBy</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FUSER"
+$?($"FUSER" != "",
+	$V(BRx_TransactionEnteredBy,$"FUSER")
+  ,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FLKNO</name>
+                        <description>BRx_TransactionIdentifier:LinkIdentifier</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FLKNO"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FGRPA</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FVERF</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFIDY</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FFIDY"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFITD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FFITD"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTIME</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCGNO</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FVUSR</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FVUSR"
+$?($"FVUSR" != "",
+	$V(BRx_TransactionApprovedBy,$"FVUSR")
+  ,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FDACT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FDACT"
+$?($"FDACT" != "",
+	$V(BRx_TransactionParty_Count,,INC)
+	$V(BRx_TransactionPartyRole_$"BRx_TransactionParty_Count",DepositoryAccount)
+	$V(BRx_TransactionPartyIdentifierType_$"BRx_TransactionParty_Count",Internal)
+	$V(BRx_TransactionPartyIdentifierValue_$"BRx_TransactionParty_Count",$"FDACT")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FJIOF</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FEFDT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FEFIE</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FBDRF</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCNDT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FCNDT"
+
+$?($"FCNDT" != "" &amp;&amp; $"FCNDT" != '00000000',
+	$V(TMPTRDT_CCYY,$"WIRE_CLDT"{Substr:1:4})
+	$V(TMPTRDT_MM,$"WIRE_CLDT"{Substr:5:2})
+	$V(TMPTRDT_DD,$"WIRE_CLDT"{Substr:7:2})
+	$V(cancelDate,$"TMPTRDT_CCYY"-$"TMPTRDT_MM"-$"TMPTRDT_DD")
+	$V(BRx_TransactionDate_Count,,INC)
+	$V(BRx_TransactionDateType_$"BRx_TransactionDate_Count",CancelDate)
+	$V(BRx_TransactionDateValue_$"BRx_TransactionDate_Count",$"cancelDate")
+,)
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCNFG</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPRDT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRDCC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCFLM</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFSOD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFADJ</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCLAM</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRFLM</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRFSO</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRFAD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRCLA</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPPRF</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FDTOP</name>
+                        <description>BRx_TransactionDate:BeginningDate</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FDTOP"
+$?($"FDTOP" != "",
+	$V(TMPTRDT_CCYY,$"FDTOP"{Substr:1:4})
+	$V(TMPTRDT_MM,$"FDTOP"{Substr:5:2})
+	$V(TMPTRDT_DD,$"FDTOP"{Substr:7:2})
+	$V(dateOpen,$"TMPTRDT_CCYY"-$"TMPTRDT_MM"-$"TMPTRDT_DD")
+	$V(BRx_TransactionDate_Count,,INC)
+	$V(BRx_TransactionDateType_$"BRx_TransactionDate_Count",BeginningDate)
+	$V(BRx_TransactionDateValue_$"BRx_TransactionDate_Count",$"dateOpen")
+,)
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FDLET</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPOCG</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPODT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPONO</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPOFA</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRPCG</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRPOD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRPON</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRPOF</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FUPNO</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFTCH</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRFTC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FDYFG</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCOVR</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FICVR</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FICVR"
+$V(BRx_TransactionAmount_Count,,INC)
+$V(BRx_TransactionAmountType_$"BRx_TransactionAmount_Count",InterestCarryover)
+$V(BRx_TransactionAmountValue_$"BRx_TransactionAmount_Count",$"FICVR")
+$V(BRx_TransactionAmountCurrency_$"BRx_TransactionAmount_Count",$"FSTCC")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRTID</name>
+                        <description>BRx_TransactionIdentifier:PriorAllocationIdentifier</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FRTID"
+$?($"FRTID" != "",
+	$V(BRx_TransactionIdentifier_Count,,INC)
+	$V(BRx_TransactionIdentifierType_$"BRx_TransactionIdentifier_Count",PriorAllocationIdentifier)
+	$V(BRx_TransactionIdentifierValue_$"BRx_TransactionIdentifier_Count",$"FRTID")	
+,)
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCLFG</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSGAC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FSGAC"
+$?($"FSGAC" != "",
+	$V(BRx_TransactionParty_Count,,INC)
+	$V(BRx_TransactionPartyRole_$"BRx_TransactionParty_Count",SegregatedAccount)
+	$V(BRx_TransactionPartyIdentifierType_$"BRx_TransactionParty_Count",Internal)
+	$V(BRx_TransactionPartyIdentifierValue_$"BRx_TransactionParty_Count",$"FSGAC")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFBAC</name>
+                        <description>BRx_TransactionParty:Broker</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FFBAC"
+$?($"FFBAC" != "",
+	$V(BRx_TransactionParty_Count,,INC)
+	$V(BRx_TransactionPartyRole_$"BRx_TransactionParty_Count",Broker)
+	$V(BRx_TransactionPartyIdentifierType_$"BRx_TransactionParty_Count",Internal)
+	$V(BRx_TransactionPartyIdentifierValue_$"BRx_TransactionParty_Count",$"FFBAC")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFBRF</name>
+                        <description>BRx_TransactionAmount:BrokerFeeAccrual</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FFBRF"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FBFRF</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCLST</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRCST</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTBDS</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTBDA</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTBDD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSCOR</name>
+                        <description>BRx_TransactionAmountType: SalesCredit
+$"FSCOR"
+$V(BRx_TransactionAmount_Count,,INC)
+$V(BRx_TransactionAmountType_$"BRx_TransactionAmount_Count",SalesCredit)
+$V(BRx_TransactionAmountValue_$"BRx_TransactionAmount_Count",$"FSCOR")
+$V(BRx_TransactionAmountCurrency_$"BRx_TransactionAmount_Count",$"FSTCC")</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSCOV</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTSCR</name>
+                        <description>BRx_TransactionAmountType: SalesCredit
+$"FTSCR"
+$V(BRx_TransactionAmount_Count,,INC)
+$V(BRx_TransactionAmountType_$"BRx_TransactionAmount_Count",SalesCredit)
+$V(BRx_TransactionAmountValue_$"BRx_TransactionAmount_Count",$"FTSCR")
+$V(BRx_TransactionAmountCurrency_$"BRx_TransactionAmount_Count",$"FSTCC")</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSCPM</name>
+                        <description>BRx_TransactionAmount: SalesCredit
+$"FSCPM"
+$V(BRx_TransactionAmount_Count,,INC)
+$V(BRx_TransactionAmountType_$"BRx_TransactionAmount_Count",SalesCredit)
+$V(BRx_TransactionAmountValue_$"BRx_TransactionAmount_Count",$"FSCPM")
+$V(BRx_TransactionAmountCurrency_$"BRx_TransactionAmount_Count",$"FSTCC")</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFIMD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FFIMD"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FDBEI</name>
+                        <description>TransactionClassification-TransactionClassificationType-TransactionReason&amp;TransactionClassificationValue</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCFDL</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFDAD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCLDM</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFDSD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRCFD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRFJD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRCLD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRSFD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTNSC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FEXRT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FEXRT"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFACC</name>
+                        <description>BRx_TransactionNarrative:InterestAccrualBasis</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FFACC"
+$V(BRx_TransactionClassification_Count,,INC)
+$V(BRx_TransactionClassificationType_$"BRx_TransactionClassification_Count",InterestAccrualBasis)
+$V(BRx_TransactionClassificationValue_$"BRx_TransactionClassification_Count",$"FFACC"&lt;AccrualCode&gt;)
+$V(BRx_TransactionClassificationSourceValue_$"BRx_TransactionClassification_Count",$"FFACC")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPWFG</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FIDFG</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFBFO</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FDPCD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPOFM</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRPFM</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FBERT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FBERT"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFHCT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FFHCT"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FOFFG</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FKCUR</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSTSC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSERF</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPAOF</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FPAOF"
+$V(BRx_TransactionType,$"FPAOF"&lt;ActingType&gt;)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFFEE</name>
+                        <description>FeeType = FinancingFee</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FFFEE"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCFEE</name>
+                        <description>FeeType = FinancingFee</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FCFEE"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FVSPR</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRTIN</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FRTIN"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FBLFI</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCOPR</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FDOPR</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCHPT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FCHPT"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FHPCT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FDYOF</name>
+                        <description>Format Clean Price when Dirty Price Flag is not SET</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FDYOF"
+$?($"FDYOF" != "Y",
+$V(BRx_TransactionPrice_Count,,INC)
+$V(BRx_TransactionPriceType_$"BRx_TransactionPrice_Count",ExecutionPrice)
+$V(BRx_TransactionPriceSubtype_$"BRx_TransactionPrice_Count",CleanPrice)
+$V(BRx_TransactionPriceValue_$"BRx_TransactionPrice_Count",$"FCFPR")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPFLG</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRCFG</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FASDT</name>
+                        <description>BRx_TransactionDate:AsOfDate</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FASDT"
+$?($"FASDT" != "" &amp;&amp; $"FASDT" != "00000000",
+	$V(TMPTRDT_CCYY,$"FASDT"{Substr:1:4})
+	$V(TMPTRDT_MM,$"FASDT"{Substr:5:2})
+	$V(TMPTRDT_DD,$"FASDT"{Substr:7:2})
+	$V(asOfDate,$"TMPTRDT_CCYY"-$"TMPTRDT_MM"-$"TMPTRDT_DD")
+	$V(BRx_TransactionDate_Count,,INC)
+	$V(BRx_TransactionDateType_$"BRx_TransactionDate_Count",AsOfDate)
+	$V(BRx_TransactionDateValue_$"BRx_TransactionDate_Count",$"asOfDate")
+,)
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FHCFG</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FALID</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRTCI</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FRTCI"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCVRT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FADJT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FADJT"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRBFG</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRSUB</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTFE2</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTFE3</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTFE4</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCNFA</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCNFN</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FCNFN"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCNRF</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRPMD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRPMN</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FETID</name>
+                        <description>BRx_TransactionIdentifier:ExternalReference</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FETID"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSLTY</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFIPM</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FFIPM"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTDBI</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FTDBI"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FAUFN</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFLRC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRFFR</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPMOD</name>
+                        <description>BRx_TransactionNarrative: DeliveryMode</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FPMOD"
+$?($"FPMOD"{trim} == "",
+$V(paymentMode,V),
+$V(paymentMode,$"FPMOD"))
+$V(BRx_TransactionNarrative_Count,,INC)
+$V(BRx_TransactionNarrativeType_$"BRx_TransactionNarrative_Count",DeliveryMode)
+$V(BRx_TransactionNarrativeValue_$"BRx_TransactionNarrative_Count",$"paymentMode")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FACBC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPYAC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FECRT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FEFCR</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FGCGC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSFKG</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPOOL</name>
+                        <description>BRx_TransactionRate:Factor</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FPOOL"
+$V(BRx_TransactionRate_Count,,INC)
+$V(BRx_TransactionRateType_$"BRx_TransactionRate_Count",Factor)
+$v(BRx_TransactionRateSubtype_$"BRx_TransactionRate_Count",Spot)
+$V(BRx_TransactionRateValue_$"BRx_TransactionRate_Count",$"FPOOL")
+,)
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRTIB</name>
+                        <description>Backward Reference Transaction Identifier - BRx_TransactionIdentifier:LinkIdentifier</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FRTIB"
+$?($"FRTIB" != "",
+	$V(BRx_TransactionIdentifier_Count,,INC)
+	$V(BRx_TransactionIdentifierType_$"BRx_TransactionIdentifier_Count",TransactionLinkReference)
+	$V(BRx_TransactionIdentifierValue_$"BRx_TransactionIdentifier_Count",$"FRTIB")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRTIF</name>
+                        <description>Forward Reference Transaction Identifier - BRx_TransactionIdentifier:LinkIdentifier</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FRTIF"
+$?($"FRTIF" != "",
+	$V(BRx_TransactionIdentifier_Count,,INC)
+	$V(BRx_TransactionIdentifierType_$"BRx_TransactionIdentifier_Count",TransactionLinkReference)
+	$V(BRx_TransactionIdentifierValue_$"BRx_TransactionIdentifier_Count",$"FRTIF")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPFID</name>
+                        <description>$"FPFID"
+$?($"FPFID" != "",
+	$V(BRx_TransactionAmount_Count,,INC)
+	$V(BRx_TransactionAmountType_$"BRx_TransactionAmount_Count",AccruedInterest)
+	$V(BRx_TransactionAmountValue_$"BRx_TransactionAmount_Count",$"FPFID")
+	$V(BRx_TransactionAmountCurrency_$"BRx_TransactionAmount_Count",$"FSECC")
+,)</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPIMR</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FETLI</name>
+                        <description>External Trade Link ID for Multi Collateral Finance Deals - BRx_TransactionIdentifier:LinkIdentifier</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FETLI"
+$?($"FETLI" != "",
+	$V(BRx_TransactionIdentifier_Count,,INC)
+	$V(BRx_TransactionIdentifierType_$"BRx_TransactionIdentifier_Count",LinkIdentifier)
+	$V(BRx_TransactionIdentifierValue_$"BRx_TransactionIdentifier_Count",$"FETLI")
+,)
+$?($"FLKNO" != "" &amp;&amp; $"FETLI" == "",
+	$V(BRx_TransactionIdentifier_Count,,INC)
+	$V(BRx_TransactionIdentifierType_$"BRx_TransactionIdentifier_Count",LinkIdentifier)
+	$V(BRx_TransactionIdentifierValue_$"BRx_TransactionIdentifier_Count",$"FLKNO")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FESPC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTPDT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTPNO</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCHCK</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCEEM</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FCEEM"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FGPSI</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTCEF</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FOFPN</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FOFPN"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCULF</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FOFTN</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FEXTS</name>
+                        <description>External Trade Source - BRx_TransactionNarrative:OriginatorOfMessage</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FEXTS"
+$?($"FEXTS" != "",
+$V(BRx_TransactionNarrative_Count,,INC)
+$V(BRx_TransactionNarrativeType_$"BRx_TransactionNarrative_Count",OriginatorOfMessage)
+$V(BRx_TransactionNarrativeValue_$"BRx_TransactionNarrative_Count",$"FEXTS")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FMDCF</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRPYM</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRACB</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRPYA</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FLBYF</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFMDA</name>
+                        <description>Firm Money Depository - Nostro</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FFMDA"
+$?($"FFMDA" != "",
+	$V(BRx_TransactionParty_Count,,INC)
+	$V(BRx_TransactionPartyRole_$"BRx_TransactionParty_Count",Nostro)
+	$V(BRx_TransactionPartyIdentifierType_$"BRx_TransactionParty_Count",Internal)
+	$V(BRx_TransactionPartyIdentifierValue_$"BRx_TransactionParty_Count",$"FFMDA")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRFMD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FBPTF</name>
+                        <description>BPS Trailer Code</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FBPTF"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FMCOG</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPTRD</name>
+                        <description>Principal Trader - PrincipalBook</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FPTRD"
+$?($"FPTRD" != "",
+	$V(BRx_TransactionParty_Count,,INC)
+	$V(BRx_TransactionPartyRole_$"BRx_TransactionParty_Count",PrincipalBook)
+	$V(BRx_TransactionPartyIdentifierType_$"BRx_TransactionParty_Count",Internal)
+	$V(BRx_TransactionPartyIdentifierValue_$"BRx_TransactionParty_Count",$"FPTRD")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFDTF</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FEID2</name>
+                        <description>Secondary External Trade Id - BRx_TransactionIdentifier:ExternalUTI</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FEID2"
+$?($"FEID2" != "",
+	$V(BRx_TransactionIdentifier_Count,,INC)
+	$V(BRx_TransactionIdentifierType_$"BRx_TransactionIdentifier_Count",SecondaryExternalTradeId)
+	$V(BRx_TransactionIdentifierValue_$"BRx_TransactionIdentifier_Count",$"FEID2")	
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FOIDT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FOINO</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FDRID</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSTNO</name>
+                        <description>Internal Split Trade Link Number - SplitLinkNumber</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FSTNO"
+$?($"FSTNO" != "",
+	$V(BRx_TransactionIdentifier_Count,,INC)
+	$V(BRx_TransactionIdentifierType_$"BRx_TransactionIdentifier_Count",SplitLinkNumber)
+	$V(BRx_TransactionIdentifierValue_$"BRx_TransactionIdentifier_Count",$"FSTNO")
+,)
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCTWH</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCTX1</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTEVT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFIED</name>
+                        <description>Finance Interest Effective Date - AccrualCalculationDate</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FFIED"
+$?($"FFIED" != "" &amp;&amp; $"FFIED" != "00000000",
+	$V(TMPTRDT_CCYY,$"FFIED"{Substr:1:4})
+	$V(TMPTRDT_MM,$"FFIED"{Substr:5:2})
+	$V(TMPTRDT_DD,$"FFIED"{Substr:7:2})
+	$V(financeIntEffectiveDate,$"TMPTRDT_CCYY"-$"TMPTRDT_MM"-$"TMPTRDT_DD")
+	$V(BRx_TransactionDate_Count,,INC)
+	$V(BRx_TransactionDateType_$"BRx_TransactionDate_Count",AccrualCalculationDate)
+	$V(BRx_TransactionDateValue_$"BRx_TransactionDate_Count",$"financeIntEffectiveDate")
+,)
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FITCD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTXRC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FNNER</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FOFCD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCDEP</name>
+                        <description>$"FCDEP"
+$?($"FCDEP" != "",
+	$V(BRx_TransactionPartyRole_Count,,INC)
+	$V(BRx_TransactionPartyRole_$"BRx_TransactionPartyRole_Count",Nostro)
+	$V(BRx_TransactionPartyIdentifierType_$"BRx_TransactionPartyRole_Count",Internal)
+	$V(BRx_TransactionPartyIdentifierValue_$"BRx_TransactionPartyRole_Count",$"FCDEP")
+,)</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FLNID</name>
+                        <description>Loanet ID - StockBorrowLoanContractReference</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FLNID"
+$?($"FLNID" != "",
+	$V(BRx_TransactionIdentifier_Count,,INC)
+	$V(BRx_TransactionIdentifierType_$"BRx_TransactionIdentifier_Count",StockBorrowLoanContractReference)
+	$V(BRx_TransactionIdentifierValue_$"BRx_TransactionIdentifier_Count",$"FLNID")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FEAPR</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FEAFA</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FEAAM</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTTOC</name>
+                        <description>TransactionClassification-TransactionClassificationType-TransactionReason&amp;TransactionClassificationValue</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPBCS</name>
+                        <description>Business Type Customer Account - $"FPBCS"</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FBSID</name>
+                        <description>Finance Rate - Base ID</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FBSID"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSDRT</name>
+                        <description>Finance Rate - Spread</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FSDRT"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRTTP</name>
+                        <description>Finance Rate - Rate Type (Basis Point Increment or Percentage Increment)</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FRTTP"
+
+$?($"FBSID" != "" &amp;&amp; $"FRTTP" == 'I',
+$V(BRx_TransactionRate_Count,,INC)
+$V(BRx_TransactionRateType_$"BRx_TransactionRate_Count",Spread)
+$v(BRx_TransactionRateSubtype_$"BRx_TransactionRate_Count",BasisPointIncrementDecrementOverBaseRate)
+$V(BRx_TransactionRateValue_$"BRx_TransactionRate_Count",$"FDSPD")
+,)
+
+$?($"FBSID" != "" &amp;&amp; $"FRTTP" == 'P',
+$V(BRx_TransactionRate_Count,,INC)
+$V(BRx_TransactionRateType_$"BRx_TransactionRate_Count",Spread)
+$v(BRx_TransactionRateSubtype_$"BRx_TransactionRate_Count",PercentageIncreaseDecreaseOverBaseRate)
+$V(BRx_TransactionRateValue_$"BRx_TransactionRate_Count",$"FDSPD")
+,)
+
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCMSF</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FGATN</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FGTRF</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FAIDT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FHRID</name>
+                        <description>Hedge Reference Id
+</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FHRID"
+$?($"FHRID" != "",
+	$V(BRx_TransactionIdentifier_Count,,INC)
+	$V(BRx_TransactionIdentifierType_$"BRx_TransactionIdentifier_Count",HedgeReferenceId)
+	$V(BRx_TransactionIdentifierValue_$"BRx_TransactionIdentifier_Count",$"FHRID")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FGACT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FGSLN</name>
+                        <description>GSCC Substitution Link Number - GSCCReference</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FGSLN"
+$?($"FGSLN" != "",
+	$V(BRx_TransactionIdentifier_Count,,INC)
+	$V(BRx_TransactionIdentifierType_$"BRx_TransactionIdentifier_Count",GSCCReference)
+	$V(BRx_TransactionIdentifierValue_$"BRx_TransactionIdentifier_Count",$"FGSLN")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPOCI</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FDEXR</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSBID</name>
+                        <description>Security Base ID</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FSBID"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSRSP</name>
+                        <description>Security Rate Spread</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FSRSP"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRFRT</name>
+                        <description>Refix Rate</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FRFRT"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFAVL</name>
+                        <description>Fair Value Amount - $"FFAVL"</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FESLI</name>
+                        <description>External Split Trade Link Id - SplitLinkNumber</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FESLI"
+$?($"FESLI" != "",
+	$V(BRx_TransactionIdentifier_Count,,INC)
+	$V(BRx_TransactionIdentifierType_$"BRx_TransactionIdentifier_Count",SplitLinkNumber)
+	$V(BRx_TransactionIdentifierValue_$"BRx_TransactionIdentifier_Count",$"FESLI")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSTPN</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTSPT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FP_FI</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FD_FI</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FM_FI</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FL_FI</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFCGF</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FLTAM</name>
+                        <description>Linked Trade Amount  - TotalOrderQuantity</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FLTAM"
+$?($"FLTAM" != "",
+	$V(BRx_TransactionQuantity_Count,,INC)
+	$V(BRx_TransactionQuantityType_$"BRx_TransactionQuantity_Count",TotalOrderQuantity)
+	$V(BRx_TransactionQuantityValue_$"BRx_TransactionQuantity_Count",$"FLTAM")
+	$V(BRx_TransactionQuantityInstrumentIdentifierType_$"BRx_TransactionQuantity_Count",CUSIP)
+	$V(BRx_TransactionQuantityInstrumentIdentifierValue_$"BRx_TransactionQuantity_Count",$"BCUSP")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FEEMO</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCMFI</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCTME</name>
+                        <description>BRx_TransactionDateType: CreatedDateTime</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FCTME"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCDTE</name>
+                        <description>BRx_TransactionDateType: CreatedDateTime</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FCDTE"
+$?($"FCDTE" != "" &amp;&amp; $"FCTME" != "" ,
+	$V(TMPTRDT_CCYY,$"FCDTE"{Substr:1:4})
+	$V(TMPTRDT_MM,$"FCDTE"{Substr:5:2})
+	$V(TMPTRDT_DD,$"FCDTE"{Substr:7:2})
+	$V(creationDate,$"TMPTRDT_CCYY"-$"TMPTRDT_MM"-$"TMPTRDT_DD")
+	$V(TMPTIME_HH,$"FCTME"{Substr:1:2})
+	$V(TMPTIME_MM,$"FCTME"{Substr:4:2})
+	$V(TMPTIME_SS,$"FCTME"{Substr:7:2})
+	$V(creationTime,$"TMPTIME_HH":$"TMPTIME_MM":$"TMPTIME_SS")
+	$V(BRx_TransactionDate_Count,,INC)
+	$V(BRx_TransactionDateType_$"BRx_TransactionDate_Count",CreatedDateTime)
+	$V(BRx_TransactionDateValue_$"BRx_TransactionDate_Count",$"creationDate" $"creationTime")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTAXT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCTXR</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FDFRP</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFTWH</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FNRAR</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FNTWH</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FDTBR</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FDTWA</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFATC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FLNCN</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FLNBL</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FLNCY</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSRCE</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FADJM</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPBPD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRPBP</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FEXVN</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FINRT1</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FINRT2</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCKDA</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCKTM</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCKUS</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSCTT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTLNV</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRMTM</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FEXRF</name>
+                        <description>External System Reference - $"FEXRF"</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FEXRF"
+$?($"FEXRF" != "",
+	$V(BRx_TransactionIdentifier_Count,,INC)
+	$V(BRx_TransactionIdentifierType_$"BRx_TransactionIdentifier_Count",ExternalUTI)
+	$V(BRx_TransactionIdentifierValue_$"BRx_TransactionIdentifier_Count",$"FEXRF")	
+,)
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRXRF</name>
+                        <description>External Reference for Close Leg - $"FRXRF"</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FPCGS</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRPCS</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FRMMP</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSRCA</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FMBFI</name>
+                        <description>Mnthly Billed Finance Interest - $"FMBFI"</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFGID</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FFGID"
+$?($"FFGID" != "",
+	$V(BRx_TransactionIdentifier_Count,,INC)
+	$V(BRx_TransactionIdentifierType_$"BRx_TransactionIdentifier_Count",DerivativeFlipParentReference)
+	$V(BRx_TransactionIdentifierValue_$"BRx_TransactionIdentifier_Count",$"FFGID")	
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFGRC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSDBI</name>
+                        <description>SOD Billed Finance Interest</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FTBFI</name>
+                        <description>Todays Billed Finance Interest</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCDPI</name>
+                        <description>BRx_TransactionPrice: ExecutionPrice:DirtyPrice
+Format Dirty Price when Dirty Price Flag is SET</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FCDPI"
+$?($"FCDPI" != "" &amp;&amp; $"FDYOF" == 'Y',
+$V(BRx_TransactionPrice_Count,,INC)
+$V(BRx_TransactionPriceType_$"BRx_TransactionPrice_Count",ExecutionPrice)
+$V(BRx_TransactionPriceSubtype_$"BRx_TransactionPrice_Count",DirtyPrice)
+$V(BRx_TransactionPriceValue_$"BRx_TransactionPrice_Count",$"FCDPI")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCRRC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FREID</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FAJDS</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSSFG</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FSMOD</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCTYC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FMIDC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FFRFC</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FCMCP</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FEBLK</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FEBS_</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>FBTSQ</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>RETURN_FINANCE_INTEREST</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"RETURN_FINANCE_INTEREST"
+$V(BRx_TransactionAmount_Count,,INC)
+$V(BRx_TransactionAmountType_$"BRx_TransactionAmount_Count",PeriodicFinanceInterest)
+$V(BRx_TransactionAmountValue_$"BRx_TransactionAmount_Count",$"RETURN_FINANCE_INTEREST")
+$V(BRx_TransactionAmountCurrency_$"BRx_TransactionAmount_Count",$"FSTCC")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>END_MONEY</name>
+                        <description>Rx_TransactionAmountType:	NetAmount</description>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"END_MONEY"
+$V(BRx_TransactionAmount_Count,,INC)
+$V(BRx_TransactionAmountType_$"BRx_TransactionAmount_Count",NetAmount)
+$V(BRx_TransactionAmountValue_$"BRx_TransactionAmount_Count",$"END_MONEY")
+$V(BRx_TransactionAmountCurrency_$"BRx_TransactionAmount_Count",$"FSTCC")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>DAILY_FINANCE_INT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"DAILY_FINANCE_INT"
+$V(BRx_TransactionAmount_Count,,INC)
+$V(BRx_TransactionAmountType_$"BRx_TransactionAmount_Count",AccruedInterest)
+$V(BRx_TransactionAmountValue_$"BRx_TransactionAmount_Count",$"DAILY_FINANCE_INT")
+$V(BRx_TransactionAmountCurrency_$"BRx_TransactionAmount_Count",$"FSTCC")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FIN_INT_TO_DATE</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FIN_INT_TO_DATE"
+$V(BRx_TransactionAmount_Count,,INC)
+$V(BRx_TransactionAmountType_$"BRx_TransactionAmount_Count",InterestToDate)
+$V(BRx_TransactionAmountValue_$"BRx_TransactionAmount_Count",$"FIN_INT_TO_DATE")
+$V(BRx_TransactionAmountCurrency_$"BRx_TransactionAmount_Count",$"FSTCC")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>DAILY_FINANCE_INT_DAYS</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"DAILY_FINANCE_INT_DAYS"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>EXTERNAL_TRADE_ID</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"EXTERNAL_TRADE_ID"
+$?($"EXTERNAL_TRADE_ID" != "",
+	$V(BRx_TransactionIdentifier_count,,INC)
+	$V(BRx_TransactionIdentifierType_$"BRx_TransactionIdentifier_count",ExternalReference)
+	$V(BRx_TransactionIdentifierValue_$"BRx_TransactionIdentifier_count",$"EXTERNAL_TRADE_ID")
+	,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>DEPO_EXTERNAL_ID</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"DEPO_EXTERNAL_ID"
+$?($"DEPO_EXTERNAL_ID" != "",
+	$V(BRx_TransactionParty_Count,,INC)
+	$V(BRx_TransactionPartyRole_$"BRx_TransactionParty_Count",DepositoryAccount)
+	$V(BRx_TransactionPartyIdentifierType_$"BRx_TransactionParty_Count",OtherExternal)
+	$V(BRx_TransactionPartyIdentifierValue_$"BRx_TransactionParty_Count",$"DEPO_EXTERNAL_ID")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>FIRM_MONEY_DEPO_EXTERNAL_ID</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"FIRM_MONEY_DEPO_EXTERNAL_ID"
+$?($"FIRM_MONEY_DEPO_EXTERNAL_ID" != "",
+	$V(BRx_TransactionParty_Count,,INC)
+	$V(BRx_TransactionPartyRole_$"BRx_TransactionParty_Count",Nostro)
+	$V(BRx_TransactionPartyIdentifierType_$"BRx_TransactionParty_Count",OtherExternal)
+	$V(BRx_TransactionPartyIdentifierValue_$"BRx_TransactionParty_Count",$"FIRM_MONEY_DEPO_EXTERNAL_ID")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>EXTERNAL_TRADER_ID</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"EXTERNAL_TRADER_ID"
+$?($"EXTERNAL_TRADER_ID" != "",
+	$V(BRx_TransactionParty_Count,,INC)
+	$V(BRx_TransactionPartyRole_$"BRx_TransactionParty_Count",TradingAccount)
+	$V(BRx_TransactionPartyIdentifierType_$"BRx_TransactionParty_Count",OtherExternal)
+	$V(BRx_TransactionPartyIdentifierValue_$"BRx_TransactionParty_Count",$"EXTERNAL_TRADER_ID")
+,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>CUSTOMER_EXTERNAL_ID</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"CUSTOMER_EXTERNAL_ID"
+$?($"CUSTOMER_EXTERNAL_ID" != "",
+	$V(BRx_TransactionParty_Count,,INC)
+	$V(BRx_TransactionPartyRole_$"BRx_TransactionParty_Count",CustomerAccount)
+	$V(BRx_TransactionPartyIdentifierType_$"BRx_TransactionParty_Count",OtherExternal)
+	$V(BRx_TransactionPartyIdentifierValue_$"BRx_TransactionParty_Count",$"CUSTOMER_EXTERNAL_ID")
+	,)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TO_DATE_BILLED_INTEREST</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"TO_DATE_BILLED_INTEREST"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>DEPO_FIRM_ACCOUNT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"DEPO_FIRM_ACCOUNT"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>NOSTRO_FIRM_ACCOUNT</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"NOSTRO_FIRM_ACCOUNT"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>STSPC1</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"STSPC1"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>STSPC2</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"STSPC2"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>STSPC3</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"STSPC3"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>DLABAN</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"DLABAN"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>DLCNID</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"DLCNID"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>DLINNO</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"DLINNO"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>DLCUDV</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"DLCUDV"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>DLDBID</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"DLDBID"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>DLDBIN</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"DLDBIN"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>DLCCNI</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"DLCCNI"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>DLDIO1</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"DLDIO1"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>DLDIO2</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"DLDIO2"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>DLDIO3</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"DLDIO3"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>DLDIO4</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"DLDIO4"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>DLDIO5</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"DLDIO5"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>DLDIO6</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"DLDIO6"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>EXTERNAL_SALESPERSON_ID</name>
+                        <mandatory>true</mandatory>
+                        <repeatsMax>1</repeatsMax>
+                        <value>$"EXTERNAL_SALESPERSON_ID"
+$?($"EXTERNAL_SALESPERSON_ID" != "",
+	$V(BRx_TransactionParty_Count,,INC)
+	$V(BRx_TransactionPartyRole_$"BRx_TransactionParty_Count",Salesperson)
+	$V(BRx_TransactionPartyIdentifierType_$"BRx_TransactionParty_Count",OtherExternal)
+	$V(BRx_TransactionPartyIdentifierValue_$"BRx_TransactionParty_Count",$"EXTERNAL_SALESPERSON_ID")
+,)</value>
+                    </messageElement>
+                </messageElement>
+            </messageDefinition>
+        </message>
+    </Messages>
+    <Lists>
+        <list>
+            <listDefinition>
+                <listCategory>
+                    <name>nape-finance-transaction-transalations</name>
+                </listCategory>
+                <listDetail>
+                    <name>TransactionStatus</name>
+                    <description>This list provides mapping between NAPE Cancel Revise Indicator and BRx Status Field</description>
+                </listDetail>
+                <listElement>
+                    <key/>
+                    <value>New</value>
+                </listElement>
+                <listElement>
+                    <key>CXL</key>
+                    <value>Cancel</value>
+                </listElement>
+                <listElement>
+                    <key>CXR</key>
+                    <value>Cancel</value>
+                </listElement>
+                <listElement>
+                    <key>CAN</key>
+                    <value>Cancel</value>
+                </listElement>
+                <listElement>
+                    <key>RTN</key>
+                    <value>Returned</value>
+                </listElement>
+                <listElement>
+                    <key>RBL</key>
+                    <value>Rebook</value>
+                </listElement>
+            </listDefinition>
+        </list>
+        <list>
+            <listDefinition>
+                <listCategory>
+                    <name>nape-finance-transaction-transalations</name>
+                </listCategory>
+                <listDetail>
+                    <name>ActingType</name>
+                    <description>Principal Agent Flag</description>
+                </listDetail>
+                <listElement>
+                    <key>P</key>
+                    <value>Principal</value>
+                </listElement>
+                <listElement>
+                    <key>A</key>
+                    <value>Agent</value>
+                </listElement>
+                <listDefault>Principal</listDefault>
+            </listDefinition>
+        </list>
+        <list>
+            <listDefinition>
+                <listCategory>
+                    <name>nape-finance-transaction-transalations</name>
+                </listCategory>
+                <listDetail>
+                    <name>PriceFormat</name>
+                </listDetail>
+                <listElement>
+                    <key>P</key>
+                    <value>CleanPrice</value>
+                </listElement>
+                <listElement>
+                    <key>D</key>
+                    <value>DiscountPrice</value>
+                </listElement>
+                <listElement>
+                    <key>Y</key>
+                    <value>YieldPrice</value>
+                </listElement>
+                <listElement>
+                    <key>X</key>
+                    <value>DirtyPrice</value>
+                </listElement>
+                <listDefault>CleanPrice</listDefault>
+            </listDefinition>
+        </list>
+        <list>
+            <listDefinition>
+                <listCategory>
+                    <name>nape-finance-transaction-transalations</name>
+                </listCategory>
+                <listDetail>
+                    <name>FinanceType</name>
+                </listDetail>
+                <listElement>
+                    <key>RP</key>
+                    <value>Repo</value>
+                </listElement>
+                <listElement>
+                    <key>RV</key>
+                    <value>ReverseRepo</value>
+                </listElement>
+                <listElement>
+                    <key>LC</key>
+                    <value>LoanForCash</value>
+                </listElement>
+                <listElement>
+                    <key>BC</key>
+                    <value>BorrowForCash</value>
+                </listElement>
+                <listElement>
+                    <key>LP</key>
+                    <value>LoanAgainstPledges</value>
+                </listElement>
+                <listElement>
+                    <key>BP</key>
+                    <value>BorrowAgainstPledges</value>
+                </listElement>
+                <listElement>
+                    <key>PI</key>
+                    <value>IncomingPledge</value>
+                </listElement>
+                <listElement>
+                    <key>PO</key>
+                    <value>OutgoingPledge</value>
+                </listElement>
+                <listElement>
+                    <key>DP</key>
+                    <value>SellBuyBack</value>
+                </listElement>
+                <listElement>
+                    <key>DV</key>
+                    <value>BuySellBack</value>
+                </listElement>
+                <listElement>
+                    <key>MB</key>
+                    <value>Repo</value>
+                </listElement>
+                <listElement>
+                    <key>ML</key>
+                    <value>ReverseRepo</value>
+                </listElement>
+                <listElement>
+                    <key>SB</key>
+                    <value>Repo</value>
+                </listElement>
+                <listElement>
+                    <key>SL</key>
+                    <value>ReverseRepo</value>
+                </listElement>
+                <listElement>
+                    <key>MI</key>
+                    <value>MoneyIn</value>
+                </listElement>
+                <listElement>
+                    <key>MO</key>
+                    <value>MoneyOut</value>
+                </listElement>
+            </listDefinition>
+        </list>
+        <list>
+            <listDefinition>
+                <listCategory>
+                    <name>nape-finance-transaction-transalations</name>
+                </listCategory>
+                <listDetail>
+                    <name>AccrualCode</name>
+                </listDetail>
+                <listElement>
+                    <key>0</key>
+                    <value>Actual/360</value>
+                </listElement>
+                <listElement>
+                    <key>1</key>
+                    <value>Actual/365</value>
+                </listElement>
+                <listElement>
+                    <key>2</key>
+                    <value>30/360</value>
+                </listElement>
+                <listElement>
+                    <key>3</key>
+                    <value>ActualBusinessDays/252</value>
+                </listElement>
+                <listElement>
+                    <key/>
+                    <value>Actual/360</value>
+                </listElement>
+            </listDefinition>
+        </list>
+    </Lists>
+</Translator>

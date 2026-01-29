@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Translator xmlns="http://messageautomation.com/translator/v1/XMLSchema.xsd">
+    <Messages>
+        <message>
+            <messageDefinition>
+                <messageCategory>
+                    <name>Dataphile Transaction</name>
+                </messageCategory>
+                <messageDetail>
+                    <name>TransactionFromDataphile</name>
+                    <type>JSON</type>
+                    <allowBlanks>false</allowBlanks>
+                </messageDetail>
+                <messageElement>
+                    <name>root</name>
+                    <javaObjectType>object</javaObjectType>
+                    <value/>
+                    <messageElement>
+                        <name>TransactionId</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"BRx_TransactionId"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionVersion</name>
+                        <javaObjectType>number</javaObjectType>
+                        <value>$"BRx_TransactionVersion"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionCategory</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"BRx_TransactionCategory"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionType</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"BRx_TransactionType"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionDirection</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"BRx_TransactionDirection"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionOrigin</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"BRx_TransactionOrigin"
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionClientId</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"BRx_TransactionClientIdentifier"
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionEntity</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"BRx_TransactionEntity"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionAccountIdentifierType</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value/>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionAccount</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"BRx_TransactionAccountIdentifierValue"
+
+$V(BRx_TransactionAccountIdentifierType,Internal)
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionCurrency</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"root_transactioncurrency"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionAmount_AccruedInterest</name>
+                        <javaObjectType>number</javaObjectType>
+                        <value>$"root_transactionamount_accruedinterest"
+
+$V(BRx_TransactionAmount_Count,,INC)
+$V(BRx_TransactionAmountType_$"BRx_TransactionAmount_Count",$?($"root_transactionamount_accruedinterest" != '',AccruedInterest,))
+$V(BRx_TransactionAmountValue_$"BRx_TransactionAmount_Count",$"root_transactionamount_accruedinterest")
+$V(BRx_TransactionAmountCurrency_$"BRx_TransactionAmount_Count",$?($"root_transactionamount_accruedinterest" != '',$"root_transactioncurrency",))</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionAmount_NetAmount</name>
+                        <javaObjectType>number</javaObjectType>
+                        <value>$"root_transactionamount_netamount"
+
+$V(BRx_TransactionAmount_Count,,INC)
+$V(BRx_TransactionAmountType_$"BRx_TransactionAmount_Count",$?($"root_transactionamount_netamount" != '',NetAmount,))
+$V(BRx_TransactionAmountValue_$"BRx_TransactionAmount_Count",$"root_transactionamount_netamount")
+$V(BRx_TransactionAmountCurrency_$"BRx_TransactionAmount_Count",$?($"root_transactionamount_netamount" != '',$"root_transactioncurrency",))</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionAmount_Proceeds</name>
+                        <javaObjectType>number</javaObjectType>
+                        <value>$"root_transactionamount_Proceeds"
+
+$V(BRx_TransactionAmount_Count,,INC)
+$V(BRx_TransactionAmountType_$"BRx_TransactionAmount_Count",$?($"root_transactionamount_proceeds" != '',Proceeds,))
+$V(BRx_TransactionAmountValue_$"BRx_TransactionAmount_Count",$"root_transactionamount_proceeds")
+$V(BRx_TransactionAmountCurrency_$"BRx_TransactionAmount_Count",$?($"root_transactionamount_proceeds" != '',$"root_transactioncurrency",))</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionAmount_CostBasis</name>
+                        <javaObjectType>number</javaObjectType>
+                        <value>$"root_transactionamount_costbasis"
+
+$V(BRx_TransactionAmount_Count,,INC)
+$V(BRx_TransactionAmountType_$"BRx_TransactionAmount_Count",$?($"root_transactionamount_costbasis" != '',CostBasis,))
+$V(BRx_TransactionAmountValue_$"BRx_TransactionAmount_Count",$"root_transactionamount_costbasis")
+$V(BRx_TransactionAmountCurrency_$"BRx_TransactionAmount_Count",$?($"root_transactionamount_costbasis" != '',$"root_transactioncurrency",))</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionAmount_RealizedProfitLoss</name>
+                        <javaObjectType>number</javaObjectType>
+                        <value>$"root_transactionamount_realizedprofitloss"
+
+$V(BRx_TransactionAmount_Count,,INC)
+$V(BRx_TransactionAmountType_$"BRx_TransactionAmount_Count",$?($"root_transactionamount_realizedprofitloss" != '',RealizedProfitLoss,))
+$V(BRx_TransactionAmountValue_$"BRx_TransactionAmount_Count",$"root_transactionamount_realizedprofitloss")
+$V(BRx_TransactionAmountCurrency_$"BRx_TransactionAmount_Count",$?($"root_transactionamount_realizedprofitloss" != '',$"root_transactioncurrency",))</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>Transaction_EntryDate</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"root_transaction_entrydate"
+$V(BRx_TransactionDateValue_EntryDate,$"root_transaction_entrydate"T00:00:00.000+00:00)
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>Transaction_TradeDate</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"root_transaction_tradedate"
+$V(BRx_TransactionDateValue_TradeInputDate,$"root_transaction_tradedate"T00:00:00.000+00:00)
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionDate_ContractualSettlementDate</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"root_transactiondate_contractualsettlementdate"
+$V(BRx_TransactionDateValue_ContractualSettlementDate,$"root_transactiondate_contractualsettlementdate"T00:00:00.000+00:00)
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionIdentifier_InternalReference</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"root_transactionidentifier_internalreference"
+$V(BRx_TransactionIdentifierValue_InternalReference,$"root_transactionidentifier_internalreference")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionIdentifier_ExternalReference</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"root_transactionidentifier_externalreference"
+
+$V(BRx_TransactionIdentifierValue_InternalReference,$"root_transactionidentifier_externalreference")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionIdentifier_TransactionCode</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"root_transactionidentifier_transactioncode"
+$V(BRx_TransactionIdentifierValue_TransactionCode,$"root_transactionidentifier_transactioncode")
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionIdentifier_TransactionCodeDescription</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"root_transactionidentifier_transactioncodedescription"
+$V(BRx_TransactionIdentifierValue_TransactionCodeDescription,$"root_transactionidentifier_transactioncodedescription")
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionInstrument_CUSIP</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"root_transactioninstrument_cusip"
+
+$V(BRx_TransactionInstrument_Count,,INC)
+$V(BRx_TransactionInstrumentIdentifierType_$"BRx_TransactionInstrument_Count",$?($"root_transactioninstrument_cusip" != '',CUSIP,))
+$V(BRx_TransactionInstrumentIdentifierValue_$"BRx_TransactionInstrument_Count",$"root_transactioninstrument_cusip")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionInstrument_UniqueReference</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"root_transactioninstrument_uniquereference"
+
+$V(BRx_TransactionInstrument_Count,,INC)
+$V(BRx_TransactionInstrumentIdentifierType_$"BRx_TransactionInstrument_Count",$?($"root_transactioninstrument_uniquereference" != '',UniqueReference,))
+$V(BRx_TransactionInstrumentIdentifierValue_$"BRx_TransactionInstrument_Count",$"root_transactioninstrument_uniquereference")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionQuantity_TransactionQuantity</name>
+                        <javaObjectType>number</javaObjectType>
+                        <value>$"root_transactionquantity_transactionquantity"
+
+$V(BRx_TransactionQuantity_Count,,INC)
+
+$V(BRx_TransactionQuantityType_$"BRx_TransactionQuantity_Count",$?($"root_transactionquantity_transactionquantity" != '',TransactionQuantity,))
+$V(BRx_TransactionQuantityValue_$"BRx_TransactionQuantity_Count",$"root_transactionquantity_transactionquantity")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionDate_TransactionDate</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"root_transaction_transactiondate"
+$V(BRx_TransactionDateValue_TransactionDate,$"root_transaction_transactiondate"T00:00:00.000+00:00)
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionDate_SettlementDate</name>
+                        <javaObjectType>string</javaObjectType>
+                        <value>$"root_transaction_settlementdate"
+$V(BRx_TransactionDateValue_SettlementDate,$"root_transaction_settlementdate"T00:00:00.000+00:00)
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionNarrative</name>
+                        <javaObjectType>array</javaObjectType>
+                        <value/>
+                        <messageElement>
+                            <name>item</name>
+                            <repeats>true</repeats>
+                            <javaObjectType>object</javaObjectType>
+                            <value>$V(BRx_TransactionNarrative_Count,,INC)
+</value>
+                            <messageElement>
+                                <name>TransactionNarrativeType</name>
+                                <javaObjectType>string</javaObjectType>
+                                <value>$"BRx_TransactionNarrativeType_$S"</value>
+                            </messageElement>
+                            <messageElement>
+                                <name>TransactionNarrativeSequence</name>
+                                <javaObjectType>number</javaObjectType>
+                                <value>$"BRx_TransactionNarrativeSequence_$S"</value>
+                            </messageElement>
+                            <messageElement>
+                                <name>TransactionNarrativeValue</name>
+                                <javaObjectType>string</javaObjectType>
+                                <value>$"BRx_TransactionNarrativeValue_$S"</value>
+                            </messageElement>
+                        </messageElement>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionPrice</name>
+                        <javaObjectType>array</javaObjectType>
+                        <value/>
+                        <messageElement>
+                            <name>item</name>
+                            <repeats>true</repeats>
+                            <javaObjectType>object</javaObjectType>
+                            <value>$V(BRx_TransactionPrice_Count,,INC)
+</value>
+                            <messageElement>
+                                <name>TransactionPriceType</name>
+                                <javaObjectType>string</javaObjectType>
+                                <value>$"BRx_TransactionPriceType_$S"</value>
+                            </messageElement>
+                            <messageElement>
+                                <name>TransactionPriceCurrency</name>
+                                <javaObjectType>string</javaObjectType>
+                                <value>$"BRx_TransactionPriceCurrency_$S"</value>
+                            </messageElement>
+                            <messageElement>
+                                <name>TransactionPriceValue</name>
+                                <javaObjectType>string</javaObjectType>
+                                <value>$"BRx_TransactionPriceValue_$S"</value>
+                            </messageElement>
+                        </messageElement>
+                    </messageElement>
+                </messageElement>
+            </messageDefinition>
+        </message>
+        <message>
+            <messageDefinition>
+                <messageCategory>
+                    <name>Dataphile Transaction</name>
+                </messageCategory>
+                <messageDetail>
+                    <name>TransactionFromDataphileCSV</name>
+                    <type>CSV</type>
+                    <allowBlanks>false</allowBlanks>
+                    <csvSeparator>,</csvSeparator>
+                </messageDetail>
+                <messageElement>
+                    <name>root</name>
+                    <value/>
+                    <messageElement>
+                        <name>TransactionId</name>
+                        <value>$"BRx_TransactionId"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionVersion</name>
+                        <value>$"BRx_TransactionVersion"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionOrigin</name>
+                        <value>$"BRx_TransactionOrigin"
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionActionType</name>
+                        <value>$"root_actiontype"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionClientId</name>
+                        <value>$"BRx_TransactionClientIdentifier"
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionEntity</name>
+                        <value>$"BRx_TransactionEntity"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionAccount</name>
+                        <value>$"BRx_TransactionAccountIdentifierValue"
+
+$V(BRx_TransactionAccountIdentifierType,Internal)
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionCurrency</name>
+                        <value>$"root_transactioncurrency"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionType</name>
+                        <value>$"BRx_TransactionType"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionDate_EntryDate</name>
+                        <value>$"root_transaction_entrydate"{ISODate}
+$V(BRx_TransactionDateValue_EntryDate,$"root_transaction_entrydate"T00:00:00.000+00:00)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionDate_TradeInputDate</name>
+                        <value>$"root_transaction_tradedate"{ISODate}
+$V(BRx_TransactionDateValue_TradeInputDate,$"root_transaction_tradedate"T00:00:00.000+00:00)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionDate_ContractualSettlementDate</name>
+                        <value>$"root_transactiondate_contractualsettlementdate"{ISODate}
+$V(BRx_TransactionDateValue_ContractualSettlementDate,$"root_transactiondate_contractualsettlementdate"T00:00:00.000+00:00)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionDate_SettlementDate</name>
+                        <value>$"root_transaction_settlementdate"{ISODate}
+$V(BRx_TransactionDateValue_SettlementDate,$"root_transaction_settlementdate"T00:00:00.000+00:00)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionDate_TransactionDate</name>
+                        <value>$"root_transaction_transactiondate"{ISODate}
+$V(BRx_TransactionDateValue_TransactionDate,$"root_transaction_transactiondate"T00:00:00.000+00:00)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionInstrument_CUSIP</name>
+                        <value>$"root_transactioninstrument_cusip"
+
+$V(BRx_TransactionInstrument_Count,,INC)
+$V(BRx_TransactionInstrumentIdentifierType_$"BRx_TransactionInstrument_Count",$?($"root_transactioninstrument_cusip" != '',CUSIP,))
+$V(BRx_TransactionInstrumentIdentifierValue_$"BRx_TransactionInstrument_Count",$"root_transactioninstrument_cusip")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionInstrument_UniqueReference</name>
+                        <value>$"root_transactioninstrument_uniquereference"
+
+$V(BRx_TransactionInstrument_Count,,INC)
+$V(BRx_TransactionInstrumentIdentifierType_$"BRx_TransactionInstrument_Count",$?($"root_transactioninstrument_uniquereference" != '',UniqueReference,))
+$V(BRx_TransactionInstrumentIdentifierValue_$"BRx_TransactionInstrument_Count",$"root_transactioninstrument_uniquereference")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionQuantity_TransactionQuantity</name>
+                        <value>$"root_transactionquantity_transactionquantity"
+
+$?($"root_transactionquantity_transactionquantity" != '',
+$V(BRx_TransactionQuantity_Count,,INC)
+$V(BRx_TransactionQuantityType_$"BRx_TransactionQuantity_Count",TransactionQuantity)
+$V(BRx_TransactionQuantityValue_$"BRx_TransactionQuantity_Count",$"root_transactionquantity_transactionquantity"),)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionAmount_NetAmount</name>
+                        <value>$"root_transactionamount_netamount"
+
+$?($"root_transactionamount_netamount" != '',
+$V(BRx_TransactionAmount_Count,,INC)
+$V(BRx_TransactionAmountType_$"BRx_TransactionAmount_Count",NetAmount)
+$V(BRx_TransactionAmountValue_$"BRx_TransactionAmount_Count",$"root_transactionamount_netamount")
+$V(BRx_TransactionAmountCurrency_$"BRx_TransactionAmount_Count",$"root_transactioncurrency"),)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionDirection</name>
+                        <value>$"BRx_TransactionDirection"</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionAmount_AccruedInterest</name>
+                        <value>$"root_transactionamount_accruedinterest"
+
+$?($"root_transactionamount_accruedinterest" != '',
+$V(BRx_TransactionAmount_Count,,INC)
+$V(BRx_TransactionAmountType_$"BRx_TransactionAmount_Count",AccruedInterest)
+$V(BRx_TransactionAmountValue_$"BRx_TransactionAmount_Count",$"root_transactionamount_accruedinterest")
+$V(BRx_TransactionAmountCurrency_$"BRx_TransactionAmount_Count",$?($"root_transactionamount_accruedinterest" != '',$"root_transactioncurrency",)),)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionIdentifier_InternalReference</name>
+                        <value>$"root_transactionidentifier_internalreference"
+$V(BRx_TransactionIdentifierValue_InternalReference,$"root_transactionidentifier_internalreference")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionPrice_ExecutionPrice</name>
+                        <value>$"root_transactionprice_executionprice"
+
+$?($"root_transactionprice_executionprice" != '',
+$V(BRx_TransactionPrice_Count,,INC)
+$V(BRx_TransactionPriceType_$"BRx_TransactionPrice_Count",ExecutionPrice)
+$V(BRx_TransactionPriceValue_$"BRx_TransactionPrice_Count",$"root_transactionprice_executionprice")
+$V(BRx_TransactionPriceCurrency_$"BRx_TransactionPrice_Count",$"root_transactioncurrency"),)</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionIdentifier_ExternalReference</name>
+                        <value>$"root_transactionidentifier_externalreference"
+
+$V(BRx_TransactionIdentifierValue_InternalReference,$"root_transactionidentifier_externalreference")</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionIdentifier_TransactionCode</name>
+                        <value>$"root_transactionidentifier_transactioncode"
+$V(BRx_TransactionIdentifierValue_TransactionCode,$"root_transactionidentifier_transactioncode")
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionIdentifier_TransactionCodeDescription</name>
+                        <value>$"root_transactionidentifier_transactioncodedescription"
+$V(BRx_TransactionIdentifierValue_TransactionCodeDescription,$"root_transactionidentifier_transactioncodedescription")
+</value>
+                    </messageElement>
+                    <messageElement>
+                        <name>TransactionNarrative_TransactionDescription</name>
+                        <value>$"root_transactionnarrative_transactiondescription"
+
+$?($"root_transactionnarrative_transactiondescription" != '',
+$V(BRx_TransactionNarrative_Count,,INC)
+$V(BRx_TransactionNarrativeType_$"BRx_TransactionNarrative_Count",Description)
+$V(BRx_TransactionNarrativeValue_$"BRx_TransactionNarrative_Count",$"root_transactionnarrative_transactiondescription")
+$V(BRx_TransactionNarrativeSequence,1),)</value>
+                    </messageElement>
+                </messageElement>
+            </messageDefinition>
+        </message>
+    </Messages>
+    <Lists/>
+</Translator>
