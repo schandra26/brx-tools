@@ -50,13 +50,7 @@ jobs:
 
       - name: Install frontend dependencies
         working-directory: frontend
-        run: |
-          # Use npm ci when a lockfile is present for reproducible installs, otherwise fall back to npm install
-          if [ -f package-lock.json ]; then
-            npm ci
-          else
-            npm install
-          fi
+        run: npm install
 
       - name: Build frontend
         working-directory: frontend
