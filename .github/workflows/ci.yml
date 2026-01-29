@@ -48,6 +48,13 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Clean npm cache
+        run: npm cache clean --force
+
+      - name: Remove cached node_modules and lock
+        working-directory: frontend
+        run: rm -rf node_modules package-lock.json 2>/dev/null || true
+
       - name: Install frontend dependencies
         working-directory: frontend
         run: npm install --legacy-peer-deps
