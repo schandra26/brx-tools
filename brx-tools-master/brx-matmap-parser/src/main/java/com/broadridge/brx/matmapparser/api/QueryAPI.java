@@ -11,14 +11,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class QueryAPI {
 
     private final QueryService queryService;
+
+    @GetMapping(value = "/api/mappings")
+    public ResponseEntity<List<Mapping>> getMappingsJson(
+            @RequestParam(required = false) String filename,
+            @RequestParam(required = false) String source,
+            @RequestParam(required = false) String target) {
+
+        List<Mapping> mappings = queryService.getFilteredMappings(filename, source, target);
+        return ResponseEntity.ok(mappings);
+    }
 
     @GetMapping(value = "/mappings")
     public String getMappings(
